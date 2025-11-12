@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="颜色选择器工具，颜色选择、格式转换（HEX/RGB/HSL）">
+  <meta name="keywords" content="颜色选择器,颜色转换,HEX转RGB,RGB转HSL,颜色工具">
+  <link rel="canonical" href="http://utils.ankkaya.top/tools/color.html">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="颜色选择器工具 - 在线工具集合">
+  <meta property="og:description" content="选择颜色并在HEX、RGB、HSL之间快速转换的在线工具">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://utils.ankkaya.top/tools/color.html">
+  <meta property="og:site_name" content="在线工具集合">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="颜色选择器工具 - 在线工具集合">
+  <meta name="twitter:description" content="在线颜色选择器，支持多种颜色格式互转，一键复制">
+  <meta name="twitter:url" content="http://utils.ankkaya.top/tools/color.html">
+
+  <title>颜色选择器工具 - 在线工具集合</title>
+  <!-- 阿里妈妈字体（阿里巴巴普惠体） -->
+  <link rel="preconnect" href="https://at.alicdn.com" crossorigin>
+  <style>
+    @font-face {
+      font-family: 'Alibaba PuHuiTi';
+      src: url('https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot');
+      src: url('https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot?#iefix') format('embedded-opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['selector', '[data-theme="dark"]'],
+    }
+  </script>
+  <link rel="stylesheet" href="../assets/css/main.css">
+
+  <!-- 结构化数据 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "颜色选择器工具",
+    "url": "http://utils.ankkaya.top/tools/color.html",
+    "applicationCategory": "UtilityApplication",
+    "description": "在线选择颜色并在HEX、RGB、HSL格式之间转换的工具"
+  }
+  </script>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+  <header class="shadow-sm">
+    <nav class="container mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <a href="../index.html" class="text-xl font-bold theme-color">在线工具集合</a>
+        <div class="flex items-center space-x-4">
+          <a href="../index.html" class="text-gray-700 dark:text-gray-300 theme-color-hover">首页</a>
+          <a href="all-tools.html" class="text-gray-700 dark:text-gray-300 theme-color-hover">全部工具</a>
+          <!-- 颜色选择器 -->
+          <div class="relative">
+            <button data-color-picker-toggle
+              class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" aria-label="选择主题色">
+              <svg class="w-5 h-5 theme-color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+              </svg>
+            </button>
+            <!-- 颜色选择面板 -->
+            <div id="colorPickerPanel"
+              class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4 z-50">
+              <div class="mb-3">
+                <h3 class="text-sm font-semibold mb-2">预设颜色</h3>
+                <div class="grid grid-cols-4 gap-2" id="presetColors">
+                  <!-- 预设颜色将通过JavaScript动态生成 -->
+                </div>
+              </div>
+              <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
+                <label class="block text-sm font-semibold mb-2">自定义颜色</label>
+                <div class="flex items-center space-x-2">
+                  <input type="color" id="customColorPicker" class="w-12 h-10 rounded cursor-pointer" value="#3b82f6" />
+                  <input type="text" id="customColorInput" placeholder="#3b82f6"
+                    class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-sm font-mono"
+                    maxlength="7" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 主题切换按钮 -->
+          <button data-theme-toggle class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            aria-label="切换主题">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl">
+    <h1 class="text-3xl font-bold mb-6 flex items-center">
+      <div class="w-10 h-10 bg-pink-100 dark:bg-pink-900 rounded-lg flex items-center justify-center mr-3">
+        <svg class="w-6 h-6 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+        </svg>
+      </div>
+      颜色选择器工具
+    </h1>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-semibold mb-4">颜色选择</h2>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium mb-2">选择颜色：</label>
+            <div class="flex items-center space-x-4">
+              <input type="color" id="colorPicker" value="#3b82f6" class="w-20 h-20 rounded cursor-pointer"
+                onchange="updateColorFromPicker()" />
+              <div class="flex-1">
+                <input type="text" id="hexInput" placeholder="#3b82f6"
+                  class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 theme-focus-ring font-mono"
+                  onchange="updateColorFromHex()" />
+              </div>
+            </div>
+          </div>
+
+          <div class="border border-gray-300 dark:border-gray-600 rounded-lg p-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-medium">颜色预览：</span>
+              <button onclick="copyColor('hex')"
+                class="px-2 py-1 theme-bg text-white rounded text-sm theme-bg-hover">复制HEX</button>
+            </div>
+            <div id="colorPreview" class="w-full h-24 rounded-lg mb-4" style="background-color: #3b82f6;"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-semibold mb-4">颜色格式转换</h2>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium mb-2">HEX:</label>
+            <div class="flex space-x-2">
+              <input type="text" id="hexValue" readonly
+                class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 font-mono" />
+              <button onclick="copyColor('hex')"
+                class="px-3 py-2 theme-bg text-white rounded theme-bg-hover">复制</button>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-2">RGB:</label>
+            <div class="flex space-x-2">
+              <input type="text" id="rgbValue" readonly
+                class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 font-mono" />
+              <button onclick="copyColor('rgb')"
+                class="px-3 py-2 theme-bg text-white rounded theme-bg-hover">复制</button>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-2">HSL:</label>
+            <div class="flex space-x-2">
+              <input type="text" id="hslValue" readonly
+                class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 font-mono" />
+              <button onclick="copyColor('hsl')"
+                class="px-3 py-2 theme-bg text-white rounded theme-bg-hover">复制</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
+    <div class="container mx-auto px-4 py-6">
+      <div class="text-center text-gray-600 dark:text-gray-400">
+        <p>&copy; 2024 在线工具集合. 保留所有权利.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/theme.js"></script>
+  <script src="../assets/js/common.js"></script>
+  <script src="../assets/js/analytics.js"></script>
+  <script>
+    function hexToRgb(hex) {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      } : null;
+    }
+
+    function rgbToHsl(r, g, b) {
+      r /= 255;
+      g /= 255;
+      b /= 255;
+      const max = Math.max(r, g, b);
+      const min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+
+      if (max === min) {
+        h = s = 0;
+      } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+          case g: h = ((b - r) / d + 2) / 6; break;
+          case b: h = ((r - g) / d + 4) / 6; break;
+        }
+      }
+
+      return {
+        h: Math.round(h * 360),
+        s: Math.round(s * 100),
+        l: Math.round(l * 100)
+      };
+    }
+
+    function updateColorFromPicker() {
+      const hex = document.getElementById('colorPicker').value;
+      updateColor(hex);
+    }
+
+    function updateColorFromHex() {
+      let hex = document.getElementById('hexInput').value.trim();
+      if (!hex.startsWith('#')) {
+        hex = '#' + hex;
+      }
+      if (/^#[0-9A-F]{6}$/i.test(hex)) {
+        document.getElementById('colorPicker').value = hex;
+        updateColor(hex);
+      }
+    }
+
+    function updateColor(hex) {
+      document.getElementById('hexInput').value = hex;
+      document.getElementById('colorPreview').style.backgroundColor = hex;
+
+      const rgb = hexToRgb(hex);
+      if (rgb) {
+        document.getElementById('hexValue').value = hex.toUpperCase();
+        document.getElementById('rgbValue').value = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+
+        const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+        document.getElementById('hslValue').value = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+      }
+    }
+
+    function copyColor(format) {
+      let value = '';
+      switch (format) {
+        case 'hex':
+          value = document.getElementById('hexValue').value;
+          break;
+        case 'rgb':
+          value = document.getElementById('rgbValue').value;
+          break;
+        case 'hsl':
+          value = document.getElementById('hslValue').value;
+          break;
+      }
+      Utils.copyToClipboard(value).then(() => {
+        Utils.showToast('已复制到剪贴板');
+      });
+    }
+
+    // 初始化
+    updateColorFromPicker();
+  </script>
+</body>
+
+</html>

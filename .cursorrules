@@ -1,0 +1,225 @@
+# 工具类网站项目开发规则
+
+## 项目概述
+
+这是一个多页面工具类网站，使用原生HTML、Tailwind CSS构建，纯前端交互，数据保存在本地。
+
+## 技术栈
+
+- **HTML**: 原生HTML5，语义化标签
+- **CSS**: Tailwind CSS（CDN版本）
+- **JavaScript**: 原生ES6+，无框架依赖
+- **数据存储**: localStorage, sessionStorage, Cookie, IndexedDB（按需使用）
+
+## 项目结构
+
+```
+utils-web/
+├── index.html              # 首页（Landing Page）
+├── tools/                  # 工具页面目录
+│   ├── time.html          # 时间工具
+│   ├── image.html         # 图片Base64转换
+│   ├── json.html          # JSON格式化
+│   ├── url.html           # URL编码/解码
+│   ├── qrcode.html        # 二维码生成
+│   ├── hash.html          # 哈希计算
+│   ├── color.html         # 颜色选择器
+│   └── all-tools.html     # 全部工具列表
+├── assets/
+│   ├── css/
+│   │   └── main.css       # 自定义样式
+│   ├── js/
+│   │   ├── common.js      # 公共工具函数
+│   │   ├── theme.js       # 主题切换逻辑
+│   │   ├── storage.js     # 本地存储封装
+│   │   └── analytics.js   # 百度统计集成
+│   └── images/            # 图片资源
+├── .cursorrules           # 项目开发规则（本文件）
+└── README.md              # 项目说明文档
+```
+
+## 代码规范
+
+### HTML规范
+
+1. **语义化标签**: 使用HTML5语义化标签（`<header>`, `<nav>`, `<main>`, `<article>`, `<section>`, `<footer>`）
+2. **SEO优化**: 每个页面必须包含：
+   - `<title>`: 页面标题，格式为"功能名称 - 在线工具集合"
+   - `<meta name="description">`: 页面描述（50-160字符）
+   - `<meta name="keywords">`: 关键词（3-5个）
+   - Open Graph 和 Twitter Card 元标签
+   - 结构化数据（JSON-LD）
+3. **可访问性**: 
+   - 所有图片必须有 `alt` 属性
+   - 按钮必须有 `aria-label` 或文本内容
+   - 表单元素必须有 `<label>`
+4. **页面结构**: 所有工具页面必须包含：
+   - 统一的导航栏（包含主题切换按钮）
+   - 面包屑导航（可选）
+   - 主要内容区域
+   - 统一的页脚
+
+### CSS规范
+
+1. **Tailwind CSS**: 优先使用Tailwind CSS类，减少自定义CSS
+2. **主题系统**: 使用 `data-theme` 属性切换主题（light/dark）
+3. **响应式设计**: 使用Tailwind响应式前缀（`sm:`, `md:`, `lg:`）
+4. **自定义样式**: 仅在 `assets/css/main.css` 中添加自定义样式
+
+### JavaScript规范
+
+1. **模块化**: 公共功能放在 `assets/js/` 目录下
+2. **命名规范**: 
+   - 函数使用驼峰命名（camelCase）
+   - 常量使用大写下划线（UPPER_SNAKE_CASE）
+   - 变量使用驼峰命名
+3. **错误处理**: 所有异步操作和可能出错的操作都要有错误处理
+4. **注释**: 复杂逻辑必须添加注释说明
+
+### 数据存储策略
+
+根据数据类型选择合适的存储方式：
+
+- **localStorage**: 
+  - 主题设置
+  - 用户偏好设置
+  - 工具使用历史（长期保存）
+  
+- **sessionStorage**: 
+  - 临时数据（如图片转换结果）
+  - 会话期间需要的数据
+  
+- **Cookie**: 
+  - 用户标识
+  - 统计相关数据
+  
+- **IndexedDB**: 
+  - 大型数据存储
+  - 批量工具历史记录（按需使用）
+
+## 功能开发规范
+
+### 添加新工具页面
+
+1. **创建HTML文件**: 在 `tools/` 目录下创建新的HTML文件
+2. **页面结构**: 参考现有工具页面的结构
+3. **SEO优化**: 添加完整的meta标签和结构化数据
+4. **功能实现**: 
+   - 使用公共工具函数（`Utils`）
+   - 使用存储封装（`Storage`）
+   - 添加事件跟踪（`Analytics.trackEvent`）
+5. **更新导航**: 
+   - 在 `index.html` 添加工具卡片
+   - 在 `tools/all-tools.html` 添加工具链接
+
+### 公共组件
+
+#### 导航栏模板
+
+```html
+<header class="bg-white dark:bg-gray-800 shadow-sm">
+  <nav class="container mx-auto px-4 py-4">
+    <div class="flex items-center justify-between">
+      <a href="../index.html" class="text-xl font-bold text-blue-600 dark:text-blue-400">
+        在线工具集合
+      </a>
+      <div class="flex items-center space-x-4">
+        <a href="../index.html" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">首页</a>
+        <a href="all-tools.html" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">全部工具</a>
+        <button data-theme-toggle class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" aria-label="切换主题">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+</header>
+```
+
+#### 页脚模板
+
+```html
+<footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
+  <div class="container mx-auto px-4 py-6">
+    <div class="text-center text-gray-600 dark:text-gray-400">
+      <p>&copy; 2024 在线工具集合. 保留所有权利.</p>
+    </div>
+  </div>
+</footer>
+```
+
+#### 脚本引用顺序
+
+```html
+<script src="../assets/js/storage.js"></script>
+<script src="../assets/js/theme.js"></script>
+<script src="../assets/js/common.js"></script>
+<script src="../assets/js/analytics.js"></script>
+```
+
+## SEO最佳实践
+
+1. **页面标题**: 每个页面有唯一且描述性的标题
+2. **Meta描述**: 50-160字符，包含关键词
+3. **结构化数据**: 使用JSON-LD格式
+4. **内部链接**: 合理的内部链接结构
+5. **图片优化**: 使用适当的alt文本
+6. **URL结构**: 简洁、描述性的URL
+
+## 性能优化建议
+
+1. **CDN资源**: 使用CDN加载外部资源（Tailwind CSS、第三方库）
+2. **懒加载**: 图片使用懒加载（如需要）
+3. **代码分割**: 按需加载JavaScript（如需要）
+4. **缓存策略**: 合理使用浏览器缓存
+5. **减少重绘**: 使用CSS过渡动画而非JavaScript动画
+
+## 扩展新工具流程
+
+1. **需求分析**: 明确工具功能和用户需求
+2. **设计界面**: 设计简洁易用的界面
+3. **实现功能**: 
+   - 创建HTML页面
+   - 实现核心功能
+   - 添加错误处理
+4. **SEO优化**: 添加meta标签和结构化数据
+5. **测试验证**: 测试功能完整性和兼容性
+6. **更新导航**: 更新首页和全部工具列表
+7. **文档更新**: 更新README（如需要）
+
+## 百度统计集成
+
+1. **配置统计ID**: 在 `assets/js/analytics.js` 中配置 `baiduId`
+2. **页面跟踪**: 自动跟踪页面访问
+3. **事件跟踪**: 使用 `Analytics.trackEvent(category, action, label)` 跟踪用户行为
+
+## 主题系统
+
+1. **主题切换**: 使用 `ThemeManager.toggle()` 切换主题
+2. **主题保存**: 自动保存到 localStorage
+3. **主题初始化**: 页面加载时自动应用保存的主题
+
+## 注意事项
+
+1. **数据隐私**: 所有数据保存在本地，不上传到服务器
+2. **浏览器兼容**: 支持现代浏览器（Chrome、Firefox、Safari、Edge）
+3. **移动端适配**: 确保所有页面在移动端正常显示
+4. **错误提示**: 用户友好的错误提示信息
+5. **加载状态**: 长时间操作显示加载状态
+
+## 代码审查清单
+
+- [ ] HTML语义化标签使用正确
+- [ ] SEO meta标签完整
+- [ ] 响应式设计测试通过
+- [ ] 主题切换功能正常
+- [ ] 错误处理完善
+- [ ] 数据存储策略合理
+- [ ] 代码注释清晰
+- [ ] 浏览器兼容性测试通过
+
+## 更新日志
+
+- 2024-01-XX: 初始版本，包含基础工具和开发规范
+

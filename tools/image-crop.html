@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="在线图片裁剪工具，支持自由框选、水平垂直翻转，快速裁剪并下载图片">
+  <meta name="keywords" content="图片裁剪,图片翻转,图片编辑,图像处理">
+  <link rel="canonical" href="http://utils.ankkaya.top/tools/image-crop.html">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="图片裁剪工具 - 在线工具集合">
+  <meta property="og:description" content="拖拽框选裁剪区域，支持水平垂直翻转，一键导出裁剪结果">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://utils.ankkaya.top/tools/image-crop.html">
+  <meta property="og:site_name" content="在线工具集合">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="图片裁剪工具 - 在线工具集合">
+  <meta name="twitter:description" content="自由裁剪、翻转图片并下载，高效图片编辑工具">
+  <meta name="twitter:url" content="http://utils.ankkaya.top/tools/image-crop.html">
+
+  <title>图片裁剪工具 - 在线工具集合</title>
+
+  <!-- 阿里妈妈字体（阿里巴巴普惠体） -->
+  <link rel="preconnect" href="https://at.alicdn.com" crossorigin>
+  <style>
+    @font-face {
+      font-family: 'Alibaba PuHuiTi';
+      src: url('https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot');
+      src: url('https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot?#iefix') format('embedded-opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['selector', '[data-theme="dark"]'],
+    }
+  </script>
+
+  <!-- 自定义样式 -->
+  <link rel="stylesheet" href="../assets/css/main.css">
+
+  <!-- 结构化数据 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "图片裁剪工具",
+    "url": "http://utils.ankkaya.top/tools/image-crop.html",
+    "applicationCategory": "UtilityApplication",
+    "description": "上传图片后自由拖拽框选裁剪区域，支持水平和垂直翻转操作，并可立即下载裁剪结果"
+  }
+  </script>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+  <!-- 导航栏 -->
+  <header class="shadow-sm">
+    <nav class="container mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <a href="../index.html" class="text-xl font-bold theme-color">
+          在线工具集合
+        </a>
+        <div class="flex items-center space-x-4">
+          <a href="../index.html" class="text-gray-700 dark:text-gray-300 theme-color-hover">首页</a>
+          <a href="all-tools.html" class="text-gray-700 dark:text-gray-300 theme-color-hover">全部工具</a>
+          <!-- 颜色选择器 -->
+          <div class="relative">
+            <button data-color-picker-toggle
+              class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" aria-label="选择主题色">
+              <svg class="w-5 h-5 theme-color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+              </svg>
+            </button>
+            <!-- 颜色选择面板 -->
+            <div id="colorPickerPanel"
+              class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4 z-50">
+              <div class="mb-3">
+                <h3 class="text-sm font-semibold mb-2">预设颜色</h3>
+                <div class="grid grid-cols-4 gap-2" id="presetColors">
+                  <!-- 预设颜色将通过JavaScript动态生成 -->
+                </div>
+              </div>
+              <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
+                <label class="block text-sm font-semibold mb-2">自定义颜色</label>
+                <div class="flex items-center space-x-2">
+                  <input type="color" id="customColorPicker" class="w-12 h-10 rounded cursor-pointer" value="#3b82f6" />
+                  <input type="text" id="customColorInput" placeholder="#3b82f6"
+                    class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-sm font-mono"
+                    maxlength="7" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 主题切换按钮 -->
+          <button data-theme-toggle class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            aria-label="切换主题">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- 主要内容 -->
+  <main class="flex-grow container mx-auto px-4 py-8 max-w-5xl">
+    <h1 class="text-3xl font-bold mb-6 flex items-center">
+      <div class="w-10 h-10 bg-teal-100 dark:bg-teal-900 rounded-lg flex items-center justify-center mr-3">
+        <svg class="w-6 h-6 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M8 5H5a2 2 0 00-2 2v3m0 6v1a2 2 0 002 2h1m3 0h3m6 0h1a2 2 0 002-2v-1m0-6V9m0-6v1a2 2 0 01-2 2h-1m-6 0H9m0 0V5m6 0v3" />
+        </svg>
+      </div>
+      图片裁剪工具
+    </h1>
+
+    <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+      <h2 class="text-xl font-semibold mb-4">上传图片</h2>
+      <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center">
+        <input type="file" id="cropImageInput" accept="image/*" class="hidden" />
+        <label for="cropImageInput" class="cursor-pointer block">
+          <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 4v16m8-8H4" />
+          </svg>
+          <p class="text-gray-600 dark:text-gray-400">点击选择图片或拖拽到此处</p>
+          <p class="text-sm text-gray-500 mt-2">上传后拖拽画布即可选取裁剪区域</p>
+        </label>
+      </div>
+      <p id="cropTips" class="text-sm text-gray-500 dark:text-gray-400 mt-3 hidden"></p>
+    </section>
+
+    <section id="cropWorkspace" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6 hidden">
+      <div class="flex flex-col lg:flex-row lg:space-x-8 space-y-6 lg:space-y-0">
+        <div class="flex-1">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-semibold">裁剪预览</h2>
+            <span id="canvasInfo" class="text-sm text-gray-500 dark:text-gray-400"></span>
+          </div>
+          <div class="relative bg-gray-100 dark:bg-gray-900 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+            <canvas id="cropCanvas" class="w-full h-full cursor-crosshair"></canvas>
+            <div id="selectionHint" class="absolute top-4 left-4 bg-white/80 dark:bg-gray-800/80 text-xs px-3 py-1 rounded-lg text-gray-600 dark:text-gray-300 hidden">
+              拖拽完成后可再次调整选区
+            </div>
+          </div>
+          <div class="mt-4 flex flex-wrap gap-3">
+            <button id="cropButton"
+              class="px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover transition-colors">裁剪选区</button>
+            <button id="clearSelectionButton"
+              class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">清除选区</button>
+            <button id="flipHorizontalButton"
+              class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">水平翻转</button>
+            <button id="flipVerticalButton"
+              class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">垂直翻转</button>
+          </div>
+        </div>
+
+        <div class="w-full lg:w-80">
+          <h2 class="text-xl font-semibold mb-4">裁剪结果</h2>
+          <div id="cropResultContainer" class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-gray-50 dark:bg-gray-900">
+            <p id="cropPlaceholder" class="text-gray-500 dark:text-gray-400">完成裁剪后显示结果预览</p>
+            <img id="cropResultImage" src="" alt="裁剪结果预览" class="hidden max-w-full rounded-lg">
+            <p id="cropResultInfo" class="mt-3 text-sm text-gray-600 dark:text-gray-400 hidden"></p>
+            <button id="downloadCropButton"
+              class="mt-4 w-full px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover transition-colors hidden">
+              下载裁剪图片
+            </button>
+          </div>
+          <div class="mt-6 text-sm text-gray-500 dark:text-gray-400 space-y-2">
+            <p><strong>提示：</strong>按住鼠标左键拖拽即可创建选区，再次拖拽可重新选择。</p>
+            <p>翻转操作对画布即时生效，裁剪结果将同步保持翻转效果。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
+    <div class="container mx-auto px-4 py-6">
+      <div class="text-center text-gray-600 dark:text-gray-400">
+        <p>&copy; 2024 在线工具集合. 保留所有权利.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 脚本 -->
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/theme.js"></script>
+  <script src="../assets/js/common.js"></script>
+  <script src="../assets/js/analytics.js"></script>
+
+  <script>
+    const cropInput = document.getElementById('cropImageInput');
+    const cropTips = document.getElementById('cropTips');
+    const cropWorkspace = document.getElementById('cropWorkspace');
+    const cropCanvas = document.getElementById('cropCanvas');
+    const canvasInfo = document.getElementById('canvasInfo');
+    const selectionHint = document.getElementById('selectionHint');
+
+    const cropButton = document.getElementById('cropButton');
+    const clearSelectionButton = document.getElementById('clearSelectionButton');
+    const flipHorizontalButton = document.getElementById('flipHorizontalButton');
+    const flipVerticalButton = document.getElementById('flipVerticalButton');
+    const downloadCropButton = document.getElementById('downloadCropButton');
+
+    const cropResultImage = document.getElementById('cropResultImage');
+    const cropResultInfo = document.getElementById('cropResultInfo');
+    const cropPlaceholder = document.getElementById('cropPlaceholder');
+
+    const dropZone = cropInput.parentElement.parentElement;
+
+    let canvasCtx = cropCanvas.getContext('2d');
+    let imageElement = new Image();
+    let displayScale = 1;
+    let flipHorizontal = false;
+    let flipVertical = false;
+
+    let selection = null;
+    let isSelecting = false;
+    let startPoint = { x: 0, y: 0 };
+
+    let originalDataUrl = '';
+    let originalFile = null;
+    let cropObjectUrl = '';
+
+    function resetCropObjectUrl() {
+      if (cropObjectUrl) {
+        URL.revokeObjectURL(cropObjectUrl);
+        cropObjectUrl = '';
+      }
+    }
+
+    function updateCanvasSize(width, height) {
+      const maxWidth = 900;
+      const maxHeight = 600;
+
+      displayScale = Math.min(1, maxWidth / width, maxHeight / height);
+      cropCanvas.width = Math.round(width * displayScale);
+      cropCanvas.height = Math.round(height * displayScale);
+
+      canvasInfo.textContent = `显示尺寸: ${cropCanvas.width}×${cropCanvas.height} | 原尺寸: ${width}×${height}`;
+    }
+
+    function drawCanvas() {
+      canvasCtx.clearRect(0, 0, cropCanvas.width, cropCanvas.height);
+
+      canvasCtx.save();
+      canvasCtx.translate(flipHorizontal ? cropCanvas.width : 0, flipVertical ? cropCanvas.height : 0);
+      canvasCtx.scale(flipHorizontal ? -1 : 1, flipVertical ? -1 : 1);
+      canvasCtx.drawImage(imageElement, 0, 0, cropCanvas.width, cropCanvas.height);
+      canvasCtx.restore();
+
+      if (selection) {
+        canvasCtx.save();
+        canvasCtx.fillStyle = 'rgba(0, 0, 0, 0.35)';
+        canvasCtx.fillRect(0, 0, cropCanvas.width, cropCanvas.height);
+
+        canvasCtx.clearRect(selection.x, selection.y, selection.width, selection.height);
+        canvasCtx.strokeStyle = '#3b82f6';
+        canvasCtx.lineWidth = 2;
+        canvasCtx.strokeRect(selection.x, selection.y, selection.width, selection.height);
+
+        canvasCtx.setLineDash([6, 4]);
+        canvasCtx.strokeStyle = 'rgba(255,255,255,0.8)';
+        canvasCtx.strokeRect(selection.x, selection.y, selection.width, selection.height);
+        canvasCtx.restore();
+      }
+    }
+
+    function handleFile(file) {
+      if (!file.type.startsWith('image/')) {
+        Utils.showToast('请选择图片文件', 'error');
+        return;
+      }
+
+      if (file.size > 30 * 1024 * 1024) {
+        Utils.showToast('图片大小超过 30MB，请先压缩或更换图片', 'error');
+        return;
+      }
+
+      originalFile = file;
+      resetCropObjectUrl();
+      cropResultImage.classList.add('hidden');
+      cropResultInfo.classList.add('hidden');
+      cropPlaceholder.classList.remove('hidden');
+      downloadCropButton.classList.add('hidden');
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        originalDataUrl = event.target.result;
+        imageElement = new Image();
+        imageElement.onload = () => {
+          updateCanvasSize(imageElement.naturalWidth, imageElement.naturalHeight);
+          selection = null;
+          flipHorizontal = false;
+          flipVertical = false;
+          drawCanvas();
+          cropWorkspace.classList.remove('hidden');
+          cropTips.textContent = `当前图片大小: ${Utils.formatFileSize(file.size)}，拖拽画布创建裁剪区域。`;
+          cropTips.classList.remove('hidden');
+          selectionHint.classList.remove('hidden');
+          Storage.session.set('lastCropImage', originalDataUrl);
+          Analytics.trackEvent('image_crop', 'upload');
+        };
+        imageElement.onerror = () => {
+          Utils.showToast('图片加载失败', 'error');
+        };
+        imageElement.src = originalDataUrl;
+      };
+      reader.onerror = () => {
+        Utils.showToast('读取文件失败', 'error');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function setSelection(newSelection) {
+      if (!newSelection) {
+        selection = null;
+        drawCanvas();
+        return;
+      }
+
+      const clamped = { ...newSelection };
+      clamped.x = Math.max(0, Math.min(clamped.x, cropCanvas.width));
+      clamped.y = Math.max(0, Math.min(clamped.y, cropCanvas.height));
+      clamped.width = Math.max(1, Math.min(cropCanvas.width - clamped.x, clamped.width));
+      clamped.height = Math.max(1, Math.min(cropCanvas.height - clamped.y, clamped.height));
+      selection = clamped;
+      drawCanvas();
+    }
+
+    function canvasPointFromEvent(event) {
+      const rect = cropCanvas.getBoundingClientRect();
+      const x = (event.clientX - rect.left) * (cropCanvas.width / rect.width);
+      const y = (event.clientY - rect.top) * (cropCanvas.height / rect.height);
+      return { x, y };
+    }
+
+    function handleMouseDown(event) {
+      if (!originalDataUrl) return;
+      isSelecting = true;
+      startPoint = canvasPointFromEvent(event);
+      setSelection({ x: startPoint.x, y: startPoint.y, width: 1, height: 1 });
+    }
+
+    function handleMouseMove(event) {
+      if (!isSelecting || !selection) return;
+      const currentPoint = canvasPointFromEvent(event);
+      const width = currentPoint.x - startPoint.x;
+      const height = currentPoint.y - startPoint.y;
+      const newSelection = {
+        x: width >= 0 ? startPoint.x : startPoint.x + width,
+        y: height >= 0 ? startPoint.y : startPoint.y + height,
+        width: Math.abs(width),
+        height: Math.abs(height)
+      };
+      setSelection(newSelection);
+    }
+
+    function handleMouseUp() {
+      if (!isSelecting) return;
+      isSelecting = false;
+      if (selection && (selection.width < 5 || selection.height < 5)) {
+        Utils.showToast('选区过小，请重新选择', 'error');
+        selection = null;
+        drawCanvas();
+      }
+    }
+
+    function performCrop() {
+      if (!selection) {
+        Utils.showToast('请先框选裁剪区域', 'error');
+        return;
+      }
+
+      const actualWidth = Math.round(selection.width / displayScale);
+      const actualHeight = Math.round(selection.height / displayScale);
+
+      if (actualWidth <= 0 || actualHeight <= 0) {
+        Utils.showToast('裁剪区域无效，请重新选择', 'error');
+        return;
+      }
+
+      let sourceX = Math.round(selection.x / displayScale);
+      let sourceY = Math.round(selection.y / displayScale);
+
+      if (flipHorizontal) {
+        sourceX = Math.round(imageElement.naturalWidth - (selection.x + selection.width) / displayScale);
+      }
+      if (flipVertical) {
+        sourceY = Math.round(imageElement.naturalHeight - (selection.y + selection.height) / displayScale);
+      }
+
+      const sourceWidth = Math.min(actualWidth, imageElement.naturalWidth);
+      const sourceHeight = Math.min(actualHeight, imageElement.naturalHeight);
+
+      const canvas = document.createElement('canvas');
+      canvas.width = sourceWidth;
+      canvas.height = sourceHeight;
+      const ctx = canvas.getContext('2d');
+
+      ctx.save();
+      if (flipHorizontal || flipVertical) {
+        ctx.translate(flipHorizontal ? sourceWidth : 0, flipVertical ? sourceHeight : 0);
+        ctx.scale(flipHorizontal ? -1 : 1, flipVertical ? -1 : 1);
+      }
+      ctx.drawImage(
+        imageElement,
+        sourceX,
+        sourceY,
+        sourceWidth,
+        sourceHeight,
+        0,
+        0,
+        sourceWidth,
+        sourceHeight
+      );
+      ctx.restore();
+
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          Utils.showToast('裁剪失败，请重试', 'error');
+          return;
+        }
+
+        resetCropObjectUrl();
+        cropObjectUrl = URL.createObjectURL(blob);
+        cropResultImage.src = cropObjectUrl;
+        cropResultImage.classList.remove('hidden');
+        cropResultInfo.textContent = `尺寸: ${sourceWidth}×${sourceHeight} | 大小: ${Utils.formatFileSize(blob.size)}`;
+        cropResultInfo.classList.remove('hidden');
+        cropPlaceholder.classList.add('hidden');
+        downloadCropButton.classList.remove('hidden');
+
+        Storage.session.set('lastCropResult', cropObjectUrl);
+        Analytics.trackEvent('image_crop', 'crop');
+      }, 'image/png');
+    }
+
+    function downloadCroppedImage() {
+      if (!cropObjectUrl) {
+        Utils.showToast('暂无裁剪结果', 'error');
+        return;
+      }
+
+      const a = document.createElement('a');
+      const filename = originalFile ? originalFile.name.replace(/\.[^.]+$/, '') + '_cropped.png' : 'cropped_image.png';
+      a.href = cropObjectUrl;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      Analytics.trackEvent('image_crop', 'download');
+    }
+
+    function clearSelection() {
+      selection = null;
+      drawCanvas();
+      selectionHint.classList.remove('hidden');
+    }
+
+    function toggleFlipHorizontal() {
+      flipHorizontal = !flipHorizontal;
+      drawCanvas();
+      selectionHint.classList.add('hidden');
+      Analytics.trackEvent('image_crop', 'flip_horizontal');
+    }
+
+    function toggleFlipVertical() {
+      flipVertical = !flipVertical;
+      drawCanvas();
+      selectionHint.classList.add('hidden');
+      Analytics.trackEvent('image_crop', 'flip_vertical');
+    }
+
+    cropInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        handleFile(file);
+      }
+    });
+
+    cropCanvas.addEventListener('mousedown', handleMouseDown);
+    cropCanvas.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+
+    cropCanvas.addEventListener('touchstart', (event) => {
+      if (!originalDataUrl) return;
+      event.preventDefault();
+      const touch = event.touches[0];
+      handleMouseDown({ clientX: touch.clientX, clientY: touch.clientY });
+    }, { passive: false });
+
+    cropCanvas.addEventListener('touchmove', (event) => {
+      if (!originalDataUrl) return;
+      event.preventDefault();
+      const touch = event.touches[0];
+      handleMouseMove({ clientX: touch.clientX, clientY: touch.clientY });
+    }, { passive: false });
+
+    cropCanvas.addEventListener('touchend', () => {
+      handleMouseUp();
+    });
+
+    cropButton.addEventListener('click', performCrop);
+    downloadCropButton.addEventListener('click', downloadCroppedImage);
+    clearSelectionButton.addEventListener('click', clearSelection);
+    flipHorizontalButton.addEventListener('click', toggleFlipHorizontal);
+    flipVerticalButton.addEventListener('click', toggleFlipVertical);
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      const themeColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim();
+      dropZone.style.borderColor = themeColor;
+      dropZone.style.backgroundColor = themeColor + '20';
+    });
+
+    dropZone.addEventListener('dragleave', (e) => {
+      e.preventDefault();
+      dropZone.style.borderColor = '';
+      dropZone.style.backgroundColor = '';
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.style.borderColor = '';
+      dropZone.style.backgroundColor = '';
+      const file = e.dataTransfer.files[0];
+      if (file) {
+        handleFile(file);
+      }
+    });
+
+    window.addEventListener('beforeunload', resetCropObjectUrl);
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const lastImage = Storage.session.get('lastCropImage');
+      if (lastImage) {
+        originalDataUrl = lastImage;
+        imageElement = new Image();
+        imageElement.onload = () => {
+          updateCanvasSize(imageElement.naturalWidth, imageElement.naturalHeight);
+          drawCanvas();
+          cropWorkspace.classList.remove('hidden');
+          cropTips.textContent = '已恢复上次上传的图片数据，可直接开始裁剪。';
+          cropTips.classList.remove('hidden');
+        };
+        imageElement.src = lastImage;
+      }
+    });
+  </script>
+</body>
+
+</html>
+
+

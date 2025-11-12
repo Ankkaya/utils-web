@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="哈希计算工具，支持MD5、SHA1、SHA256等哈希值计算">
+  <meta name="keywords" content="MD5,SHA1,SHA256,哈希计算,哈希值">
+  <link rel="canonical" href="http://utils.ankkaya.top/tools/hash.html">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="哈希计算工具 - 在线工具集合">
+  <meta property="og:description" content="支持多种算法的哈希计算，快速复制结果">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://utils.ankkaya.top/tools/hash.html">
+  <meta property="og:site_name" content="在线工具集合">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="哈希计算工具 - 在线工具集合">
+  <meta name="twitter:description" content="输入文本即可生成MD5、SHA1、SHA256等哈希值">
+  <meta name="twitter:url" content="http://utils.ankkaya.top/tools/hash.html">
+
+  <title>哈希计算工具 - 在线工具集合</title>
+  <!-- 阿里妈妈字体（阿里巴巴普惠体） -->
+  <link rel="preconnect" href="https://at.alicdn.com" crossorigin>
+  <style>
+    @font-face {
+      font-family: 'Alibaba PuHuiTi';
+      src: url('https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot');
+      src: url('https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot?#iefix') format('embedded-opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['selector', '[data-theme="dark"]'],
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.js"></script>
+  <link rel="stylesheet" href="../assets/css/main.css">
+
+  <!-- 结构化数据 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "哈希计算工具",
+    "url": "http://utils.ankkaya.top/tools/hash.html",
+    "applicationCategory": "UtilityApplication",
+    "description": "支持MD5、SHA1、SHA256等常用算法的哈希计算工具"
+  }
+  </script>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+  <header class="shadow-sm">
+    <nav class="container mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <a href="../index.html" class="text-xl font-bold theme-color">在线工具集合</a>
+        <div class="flex items-center space-x-4">
+          <a href="../index.html" class="text-gray-700 dark:text-gray-300 theme-color-hover">首页</a>
+          <a href="all-tools.html" class="text-gray-700 dark:text-gray-300 theme-color-hover">全部工具</a>
+          <!-- 颜色选择器 -->
+          <div class="relative">
+            <button data-color-picker-toggle
+              class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" aria-label="选择主题色">
+              <svg class="w-5 h-5 theme-color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+              </svg>
+            </button>
+            <!-- 颜色选择面板 -->
+            <div id="colorPickerPanel"
+              class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4 z-50">
+              <div class="mb-3">
+                <h3 class="text-sm font-semibold mb-2">预设颜色</h3>
+                <div class="grid grid-cols-4 gap-2" id="presetColors">
+                  <!-- 预设颜色将通过JavaScript动态生成 -->
+                </div>
+              </div>
+              <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
+                <label class="block text-sm font-semibold mb-2">自定义颜色</label>
+                <div class="flex items-center space-x-2">
+                  <input type="color" id="customColorPicker" class="w-12 h-10 rounded cursor-pointer" value="#3b82f6" />
+                  <input type="text" id="customColorInput" placeholder="#3b82f6"
+                    class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-sm font-mono"
+                    maxlength="7" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 主题切换按钮 -->
+          <button data-theme-toggle class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            aria-label="切换主题">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl">
+    <h1 class="text-3xl font-bold mb-6 flex items-center">
+      <div class="w-10 h-10 bg-indigo-100 dark:bg-indigo-900 rounded-lg flex items-center justify-center mr-3">
+        <svg class="w-6 h-6 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+      </div>
+      哈希计算工具
+    </h1>
+
+    <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+      <h2 class="text-xl font-semibold mb-4">输入文本</h2>
+      <textarea id="hashInput" placeholder="请输入要计算哈希值的文本"
+        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 theme-focus-ring"
+        rows="6"></textarea>
+      <button onclick="calculateHashes()"
+        class="mt-4 w-full px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover">计算哈希值</button>
+    </section>
+
+    <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+      <h2 class="text-xl font-semibold mb-4">哈希结果</h2>
+      <div class="space-y-4">
+        <div class="border border-gray-300 dark:border-gray-600 rounded-lg p-4">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-medium">MD5:</span>
+            <button onclick="copyHash('md5')"
+              class="px-2 py-1 theme-bg text-white rounded text-sm theme-bg-hover">复制</button>
+          </div>
+          <div id="md5Result" class="font-mono text-sm text-gray-600 dark:text-gray-400 break-all">--</div>
+        </div>
+
+        <div class="border border-gray-300 dark:border-gray-600 rounded-lg p-4">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-medium">SHA1:</span>
+            <button onclick="copyHash('sha1')"
+              class="px-2 py-1 theme-bg text-white rounded text-sm theme-bg-hover">复制</button>
+          </div>
+          <div id="sha1Result" class="font-mono text-sm text-gray-600 dark:text-gray-400 break-all">--</div>
+        </div>
+
+        <div class="border border-gray-300 dark:border-gray-600 rounded-lg p-4">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-medium">SHA256:</span>
+            <button onclick="copyHash('sha256')"
+              class="px-2 py-1 theme-bg text-white rounded text-sm theme-bg-hover">复制</button>
+          </div>
+          <div id="sha256Result" class="font-mono text-sm text-gray-600 dark:text-gray-400 break-all">--</div>
+        </div>
+
+        <div class="border border-gray-300 dark:border-gray-600 rounded-lg p-4">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-medium">SHA512:</span>
+            <button onclick="copyHash('sha512')"
+              class="px-2 py-1 theme-bg text-white rounded text-sm theme-bg-hover">复制</button>
+          </div>
+          <div id="sha512Result" class="font-mono text-sm text-gray-600 dark:text-gray-400 break-all">--</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
+    <div class="container mx-auto px-4 py-6">
+      <div class="text-center text-gray-600 dark:text-gray-400">
+        <p>&copy; 2024 在线工具集合. 保留所有权利.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/theme.js"></script>
+  <script src="../assets/js/common.js"></script>
+  <script src="../assets/js/analytics.js"></script>
+  <script>
+    function calculateHashes() {
+      const text = document.getElementById('hashInput').value;
+      if (!text) {
+        Utils.showToast('请输入要计算哈希值的文本', 'error');
+        return;
+      }
+
+      document.getElementById('md5Result').textContent = CryptoJS.MD5(text).toString();
+      document.getElementById('sha1Result').textContent = CryptoJS.SHA1(text).toString();
+      document.getElementById('sha256Result').textContent = CryptoJS.SHA256(text).toString();
+      document.getElementById('sha512Result').textContent = CryptoJS.SHA512(text).toString();
+    }
+
+    function copyHash(type) {
+      const elementId = type + 'Result';
+      const hash = document.getElementById(elementId).textContent;
+      if (hash === '--') {
+        Utils.showToast('没有可复制的内容', 'error');
+        return;
+      }
+      Utils.copyToClipboard(hash).then(() => {
+        Utils.showToast('已复制到剪贴板');
+      });
+    }
+
+    // 实时计算
+    document.getElementById('hashInput').addEventListener('input', Utils.debounce(calculateHashes, 500));
+  </script>
+</body>
+
+</html>

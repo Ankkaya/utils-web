@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="URL编码解码工具，支持URL编码、解码，查询参数解析和格式化">
+  <meta name="keywords" content="URL编码,URL解码,URL转义,查询参数解析">
+  <link rel="canonical" href="http://utils.ankkaya.top/tools/url.html">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="URL编码/解码工具 - 在线工具集合">
+  <meta property="og:description" content="在线完成URL编码解码、查询参数解析与格式化">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://utils.ankkaya.top/tools/url.html">
+  <meta property="og:site_name" content="在线工具集合">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="URL编码/解码工具 - 在线工具集合">
+  <meta name="twitter:description" content="一键URL编码解码、解析查询参数的在线工具">
+  <meta name="twitter:url" content="http://utils.ankkaya.top/tools/url.html">
+
+  <title>URL编码/解码工具 - 在线工具集合</title>
+  <!-- 阿里妈妈字体（阿里巴巴普惠体） -->
+  <link rel="preconnect" href="https://at.alicdn.com" crossorigin>
+  <style>
+    @font-face {
+      font-family: 'Alibaba PuHuiTi';
+      src: url('https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot');
+      src: url('https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot?#iefix') format('embedded-opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['selector', '[data-theme="dark"]'],
+    }
+  </script>
+  <link rel="stylesheet" href="../assets/css/main.css">
+
+  <!-- 结构化数据 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "URL编码/解码工具",
+    "url": "http://utils.ankkaya.top/tools/url.html",
+    "applicationCategory": "UtilityApplication",
+    "description": "在线完成URL编码、解码以及查询字符串解析和格式化"
+  }
+  </script>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+  <header class="shadow-sm">
+    <nav class="container mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <a href="../index.html" class="text-xl font-bold theme-color">在线工具集合</a>
+        <div class="flex items-center space-x-4">
+          <a href="../index.html" class="text-gray-700 dark:text-gray-300 theme-color-hover">首页</a>
+          <a href="all-tools.html" class="text-gray-700 dark:text-gray-300 theme-color-hover">全部工具</a>
+          <!-- 颜色选择器 -->
+          <div class="relative">
+            <button data-color-picker-toggle
+              class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" aria-label="选择主题色">
+              <svg class="w-5 h-5 theme-color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+              </svg>
+            </button>
+            <!-- 颜色选择面板 -->
+            <div id="colorPickerPanel"
+              class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4 z-50">
+              <div class="mb-3">
+                <h3 class="text-sm font-semibold mb-2">预设颜色</h3>
+                <div class="grid grid-cols-4 gap-2" id="presetColors">
+                  <!-- 预设颜色将通过JavaScript动态生成 -->
+                </div>
+              </div>
+              <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
+                <label class="block text-sm font-semibold mb-2">自定义颜色</label>
+                <div class="flex items-center space-x-2">
+                  <input type="color" id="customColorPicker" class="w-12 h-10 rounded cursor-pointer" value="#3b82f6" />
+                  <input type="text" id="customColorInput" placeholder="#3b82f6"
+                    class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-sm font-mono"
+                    maxlength="7" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 主题切换按钮 -->
+          <button data-theme-toggle class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" aria-label="切换主题">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl">
+    <h1 class="text-3xl font-bold mb-6 flex items-center">
+      <div class="w-10 h-10 bg-yellow-100 dark:bg-yellow-900 rounded-lg flex items-center justify-center mr-3">
+        <svg class="w-6 h-6 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+        </svg>
+      </div>
+      URL编码/解码工具
+    </h1>
+
+    <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+      <h2 class="text-xl font-semibold mb-4">URL编码/解码</h2>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-2">输入文本：</label>
+          <textarea 
+            id="urlInput"
+            placeholder="请输入要编码或解码的URL或文本"
+            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 theme-focus-ring font-mono text-sm"
+            rows="4"
+          ></textarea>
+        </div>
+        <div class="flex space-x-3">
+          <button onclick="encodeURL()" class="flex-1 px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover">编码</button>
+          <button onclick="decodeURL()" class="flex-1 px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover">解码</button>
+          <button onclick="copyURL()" class="flex-1 px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover">复制结果</button>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2">结果：</label>
+          <textarea 
+            id="urlOutput"
+            readonly
+            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 font-mono text-sm"
+            rows="4"
+          ></textarea>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+      <h2 class="text-xl font-semibold mb-4">查询参数解析</h2>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-2">URL（包含查询参数）：</label>
+          <input 
+            type="text"
+            id="queryInput"
+            placeholder="http://utils.ankkaya.top?key1=value1&key2=value2"
+            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 theme-focus-ring font-mono text-sm"
+          />
+        </div>
+        <button onclick="parseQuery()" class="w-full px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover">解析</button>
+        <div id="queryResult" class="hidden">
+          <label class="block text-sm font-medium mb-2">解析结果：</label>
+          <div class="border border-gray-300 dark:border-gray-600 rounded-lg p-4 bg-gray-50 dark:bg-gray-700">
+            <pre id="queryOutput" class="font-mono text-sm whitespace-pre-wrap"></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
+    <div class="container mx-auto px-4 py-6">
+      <div class="text-center text-gray-600 dark:text-gray-400">
+        <p>&copy; 2024 在线工具集合. 保留所有权利.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/theme.js"></script>
+  <script src="../assets/js/common.js"></script>
+  <script src="../assets/js/analytics.js"></script>
+  <script>
+    function encodeURL() {
+      const input = document.getElementById('urlInput').value;
+      if (!input) {
+        Utils.showToast('请输入要编码的内容', 'error');
+        return;
+      }
+      try {
+        const encoded = encodeURIComponent(input);
+        document.getElementById('urlOutput').value = encoded;
+      } catch (e) {
+        Utils.showToast('编码失败: ' + e.message, 'error');
+      }
+    }
+
+    function decodeURL() {
+      const input = document.getElementById('urlInput').value;
+      if (!input) {
+        Utils.showToast('请输入要解码的内容', 'error');
+        return;
+      }
+      try {
+        const decoded = decodeURIComponent(input);
+        document.getElementById('urlOutput').value = decoded;
+      } catch (e) {
+        Utils.showToast('解码失败: ' + e.message, 'error');
+      }
+    }
+
+    function copyURL() {
+      const output = document.getElementById('urlOutput').value;
+      if (!output) {
+        Utils.showToast('没有可复制的内容', 'error');
+        return;
+      }
+      Utils.copyToClipboard(output).then(() => {
+        Utils.showToast('已复制到剪贴板');
+      });
+    }
+
+    function parseQuery() {
+      const url = document.getElementById('queryInput').value.trim();
+      if (!url) {
+        Utils.showToast('请输入URL', 'error');
+        return;
+      }
+
+      try {
+        const urlObj = new URL(url);
+        const params = {};
+        urlObj.searchParams.forEach((value, key) => {
+          params[key] = value;
+        });
+
+        const result = {
+          baseURL: urlObj.origin + urlObj.pathname,
+          queryParams: params,
+          fullURL: url
+        };
+
+        document.getElementById('queryOutput').textContent = JSON.stringify(result, null, 2);
+        document.getElementById('queryResult').classList.remove('hidden');
+      } catch (e) {
+        Utils.showToast('URL格式错误: ' + e.message, 'error');
+      }
+    }
+  </script>
+</body>
+</html>
+

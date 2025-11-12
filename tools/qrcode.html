@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="二维码生成工具，文本转二维码图片，支持自定义大小和下载">
+  <meta name="keywords" content="二维码生成,QR码,二维码工具">
+  <link rel="canonical" href="http://utils.ankkaya.top/tools/qrcode.html">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="二维码生成工具 - 在线工具集合">
+  <meta property="og:description" content="快速生成二维码，支持自定义尺寸并下载PNG图片">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://utils.ankkaya.top/tools/qrcode.html">
+  <meta property="og:site_name" content="在线工具集合">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="二维码生成工具 - 在线工具集合">
+  <meta name="twitter:description" content="文本转二维码、支持尺寸调节与下载，立即尝试">
+  <meta name="twitter:url" content="http://utils.ankkaya.top/tools/qrcode.html">
+
+  <title>二维码生成工具 - 在线工具集合</title>
+  <!-- 阿里妈妈字体（阿里巴巴普惠体） -->
+  <link rel="preconnect" href="https://at.alicdn.com" crossorigin>
+  <style>
+    @font-face {
+      font-family: 'Alibaba PuHuiTi';
+      src: url('https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot');
+      src: url('https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot?#iefix') format('embedded-opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['selector', '[data-theme="dark"]'],
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js" data-qrcode-script></script>
+  <link rel="stylesheet" href="../assets/css/main.css">
+
+  <!-- 结构化数据 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "二维码生成工具",
+    "url": "http://utils.ankkaya.top/tools/qrcode.html",
+    "applicationCategory": "UtilityApplication",
+    "description": "将文本或链接快速转为二维码，支持自定义尺寸并下载PNG图片"
+  }
+  </script>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+  <header class="shadow-sm">
+    <nav class="container mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <a href="../index.html" class="text-xl font-bold theme-color">在线工具集合</a>
+        <div class="flex items-center space-x-4">
+          <a href="../index.html" class="text-gray-700 dark:text-gray-300 theme-color-hover">首页</a>
+          <a href="all-tools.html" class="text-gray-700 dark:text-gray-300 theme-color-hover">全部工具</a>
+          <!-- 颜色选择器 -->
+          <div class="relative">
+            <button data-color-picker-toggle
+              class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" aria-label="选择主题色">
+              <svg class="w-5 h-5 theme-color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+              </svg>
+            </button>
+            <!-- 颜色选择面板 -->
+            <div id="colorPickerPanel"
+              class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4 z-50">
+              <div class="mb-3">
+                <h3 class="text-sm font-semibold mb-2">预设颜色</h3>
+                <div class="grid grid-cols-4 gap-2" id="presetColors">
+                  <!-- 预设颜色将通过JavaScript动态生成 -->
+                </div>
+              </div>
+              <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
+                <label class="block text-sm font-semibold mb-2">自定义颜色</label>
+                <div class="flex items-center space-x-2">
+                  <input type="color" id="customColorPicker" class="w-12 h-10 rounded cursor-pointer" value="#3b82f6" />
+                  <input type="text" id="customColorInput" placeholder="#3b82f6"
+                    class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-sm font-mono"
+                    maxlength="7" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 主题切换按钮 -->
+          <button data-theme-toggle class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            aria-label="切换主题">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl">
+    <h1 class="text-3xl font-bold mb-6 flex items-center">
+      <div class="w-10 h-10 bg-red-100 dark:bg-red-900 rounded-lg flex items-center justify-center mr-3">
+        <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+        </svg>
+      </div>
+      二维码生成工具
+    </h1>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-semibold mb-4">输入内容</h2>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium mb-2">文本内容：</label>
+            <textarea id="qrcodeInput" placeholder="请输入要生成二维码的文本或URL"
+              class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 theme-focus-ring"
+              rows="6"></textarea>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2">二维码大小：</label>
+            <input type="range" id="qrcodeSize" min="100" max="500" value="200" class="w-full" />
+            <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+              <span>100px</span>
+              <span id="sizeValue">200px</span>
+              <span>500px</span>
+            </div>
+          </div>
+          <button onclick="generateQRCode()"
+            class="w-full px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover">生成二维码</button>
+        </div>
+      </section>
+
+      <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xl font-semibold">二维码预览</h2>
+          <div class="flex items-center space-x-2">
+            <button onclick="copyQRCode()"
+              class="px-3 py-1 text-white rounded theme-bg-secondary theme-bg-secondary-hover text-sm transition-colors">复制</button>
+            <button onclick="downloadQRCode()"
+              class="px-3 py-1 text-white rounded theme-bg theme-bg-hover text-sm transition-colors">下载</button>
+          </div>
+        </div>
+        <div
+          class="flex items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8"
+          style="min-height: 300px;">
+          <canvas id="qrcodeCanvas" class="hidden"></canvas>
+          <div id="qrcodePlaceholder" class="text-gray-400 text-center">
+            <svg class="w-16 h-16 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+            </svg>
+            <p>二维码将显示在这里</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
+    <div class="container mx-auto px-4 py-6">
+      <div class="text-center text-gray-600 dark:text-gray-400">
+        <p>&copy; 2024 在线工具集合. 保留所有权利.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/theme.js"></script>
+  <script src="../assets/js/common.js"></script>
+  <script src="../assets/js/analytics.js"></script>
+  <script>
+    const QR_CODE_SCRIPT_URL = 'https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js';
+    let qrCodeLibraryPromise = null;
+    let currentQRCodeDataURL = '';
+
+    function loadQRCodeLibrary() {
+      if (typeof window.QRCode !== 'undefined' || typeof window.qrcode !== 'undefined') {
+        return Promise.resolve();
+      }
+
+      if (qrCodeLibraryPromise) {
+        return qrCodeLibraryPromise;
+      }
+
+      qrCodeLibraryPromise = new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = QR_CODE_SCRIPT_URL;
+        script.async = true;
+        script.onload = () => {
+          if (typeof window.QRCode !== 'undefined' || typeof window.qrcode !== 'undefined') {
+            resolve();
+            return;
+          }
+          reject(new Error('二维码库未正确初始化'));
+        };
+        script.onerror = () => reject(new Error('二维码库加载失败，请检查网络连接'));
+        document.head.appendChild(script);
+      });
+
+      return qrCodeLibraryPromise;
+    }
+
+    document.getElementById('qrcodeSize').addEventListener('input', (e) => {
+      document.getElementById('sizeValue').textContent = e.target.value + 'px';
+    });
+
+    async function generateQRCode() {
+      const text = document.getElementById('qrcodeInput').value.trim();
+      if (!text) {
+        Utils.showToast('请输入要生成二维码的内容', 'error');
+        return;
+      }
+
+      try {
+        await loadQRCodeLibrary();
+      } catch (error) {
+        Utils.showToast(error.message || '二维码库加载失败，请稍后重试', 'error');
+        return;
+      }
+
+      const QRCodeLib = window.QRCode || window.qrcode;
+      if (!QRCodeLib || typeof QRCodeLib.toCanvas !== 'function') {
+        Utils.showToast('二维码库不可用，请刷新页面后重试', 'error');
+        return;
+      }
+
+      const size = parseInt(document.getElementById('qrcodeSize').value);
+      const canvas = document.getElementById('qrcodeCanvas');
+
+      QRCodeLib.toCanvas(canvas, text, {
+        width: size,
+        margin: 2,
+        color: {
+          dark: '#000000',
+          light: '#FFFFFF'
+        }
+      }, function (error) {
+        if (error) {
+          Utils.showToast('生成失败: ' + error.message, 'error');
+          return;
+        }
+
+        currentQRCodeDataURL = canvas.toDataURL('image/png');
+        canvas.classList.remove('hidden');
+        document.getElementById('qrcodePlaceholder').classList.add('hidden');
+        Storage.local.set('lastQRCode', text);
+        if (window.Analytics?.trackEvent) {
+          window.Analytics.trackEvent('qrcode', 'generate', 'canvas');
+        }
+      });
+    }
+
+    function downloadQRCode() {
+      if (!currentQRCodeDataURL) {
+        Utils.showToast('请先生成二维码', 'error');
+        return;
+      }
+
+      const link = document.createElement('a');
+      link.href = currentQRCodeDataURL;
+      link.download = 'qrcode.png';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      if (window.Analytics?.trackEvent) {
+        window.Analytics.trackEvent('qrcode', 'download', 'png');
+      }
+    }
+
+    function copyQRCode() {
+      if (!currentQRCodeDataURL) {
+        Utils.showToast('请先生成二维码', 'error');
+        return;
+      }
+
+      const copyDataURL = async () => {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(currentQRCodeDataURL);
+          return true;
+        }
+        const textarea = document.createElement('textarea');
+        textarea.value = currentQRCodeDataURL;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        const result = document.execCommand('copy');
+        document.body.removeChild(textarea);
+        return result;
+      };
+
+      copyDataURL().then(() => {
+        Utils.showToast('二维码数据已复制到剪贴板');
+        if (window.Analytics?.trackEvent) {
+          window.Analytics.trackEvent('qrcode', 'copy', 'dataurl');
+        }
+      }).catch(() => {
+        Utils.showToast('复制失败，请手动复制', 'error');
+      });
+    }
+
+    // 恢复上次的内容
+    window.addEventListener('DOMContentLoaded', () => {
+      const lastQRCode = Storage.local.get('lastQRCode');
+      if (lastQRCode) {
+        document.getElementById('qrcodeInput').value = lastQRCode;
+      }
+    });
+  </script>
+</body>
+
+</html>

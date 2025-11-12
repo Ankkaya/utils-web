@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="时间戳转换工具，支持10位和13位时间戳转换，日期时间互转，实时显示当前时间">
+  <meta name="keywords" content="时间戳转换,时间戳,Unix时间戳,10位时间戳,13位时间戳,时间转换">
+  <link rel="canonical" href="http://utils.ankkaya.top/tools/time.html">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="时间戳转换工具 - 在线工具集合">
+  <meta property="og:description" content="支持10位和13位时间戳转换，实时查看当前时间并完成日期互转">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://utils.ankkaya.top/tools/time.html">
+  <meta property="og:site_name" content="在线工具集合">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="时间戳转换工具 - 在线工具集合">
+  <meta name="twitter:description" content="一站式时间戳转换工具，支持秒与毫秒互转、日期时间互转">
+  <meta name="twitter:url" content="http://utils.ankkaya.top/tools/time.html">
+
+  <title>时间戳转换工具 - 在线工具集合</title>
+  
+  <!-- 阿里妈妈字体（阿里巴巴普惠体） -->
+  <link rel="preconnect" href="https://at.alicdn.com" crossorigin>
+  <style>
+    @font-face {
+      font-family: 'Alibaba PuHuiTi';
+      src: url('https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot');
+      src: url('https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot?#iefix') format('embedded-opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['selector', '[data-theme="dark"]'],
+    }
+  </script>
+  
+  <!-- 自定义样式 -->
+  <link rel="stylesheet" href="../assets/css/main.css">
+  
+  <!-- 结构化数据 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "时间戳转换工具",
+    "url": "http://utils.ankkaya.top/tools/time.html",
+    "applicationCategory": "UtilityApplication",
+    "description": "支持10位和13位时间戳转换，实时查看当前时间并完成日期时间互转"
+  }
+  </script>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+  <!-- 导航栏 -->
+  <header class="shadow-sm">
+    <nav class="container mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <a href="../index.html" class="text-xl font-bold theme-color">
+          在线工具集合
+        </a>
+        <div class="flex items-center space-x-4">
+          <a href="../index.html" class="text-gray-700 dark:text-gray-300 theme-color-hover">首页</a>
+          <a href="all-tools.html" class="text-gray-700 dark:text-gray-300 theme-color-hover">全部工具</a>
+          <!-- 颜色选择器 -->
+          <div class="relative">
+            <button data-color-picker-toggle
+              class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" aria-label="选择主题色">
+              <svg class="w-5 h-5 theme-color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+              </svg>
+            </button>
+            <!-- 颜色选择面板 -->
+            <div id="colorPickerPanel"
+              class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4 z-50">
+              <div class="mb-3">
+                <h3 class="text-sm font-semibold mb-2">预设颜色</h3>
+                <div class="grid grid-cols-4 gap-2" id="presetColors">
+                  <!-- 预设颜色将通过JavaScript动态生成 -->
+                </div>
+              </div>
+              <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
+                <label class="block text-sm font-semibold mb-2">自定义颜色</label>
+                <div class="flex items-center space-x-2">
+                  <input type="color" id="customColorPicker" class="w-12 h-10 rounded cursor-pointer" value="#3b82f6" />
+                  <input type="text" id="customColorInput" placeholder="#3b82f6"
+                    class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-sm font-mono"
+                    maxlength="7" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 主题切换按钮 -->
+          <button 
+            data-theme-toggle
+            class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            aria-label="切换主题"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- 主要内容 -->
+  <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl">
+    <h1 class="text-3xl font-bold mb-6 flex items-center">
+      <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mr-3">
+        <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+      时间戳转换工具
+    </h1>
+
+    <!-- 当前时间显示 -->
+    <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+      <h2 class="text-xl font-semibold mb-4">当前时间</h2>
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-gray-600 dark:text-gray-400">当前时间：</span>
+          <span class="text-lg font-mono" id="currentTime">--</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-gray-600 dark:text-gray-400">10位时间戳：</span>
+          <div class="flex items-center space-x-2">
+            <span class="text-lg font-mono" id="timestamp10">--</span>
+            <button 
+              onclick="copyTimestamp('10')"
+              class="px-3 py-1 theme-bg text-white rounded theme-bg-hover text-sm"
+            >
+              复制
+            </button>
+          </div>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-gray-600 dark:text-gray-400">13位时间戳：</span>
+          <div class="flex items-center space-x-2">
+            <span class="text-lg font-mono" id="timestamp13">--</span>
+            <button 
+              onclick="copyTimestamp('13')"
+              class="px-3 py-1 theme-bg text-white rounded theme-bg-hover text-sm"
+            >
+              复制
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 时间戳转日期 -->
+    <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+      <h2 class="text-xl font-semibold mb-4">时间戳转日期时间</h2>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-2">时间戳（支持10位或13位）：</label>
+          <input 
+            type="text" 
+            id="timestampInput"
+            placeholder="请输入时间戳"
+            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 theme-focus-ring focus:border-transparent"
+          />
+        </div>
+        <button 
+          onclick="timestampToDate()"
+          class="w-full px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover transition-colors"
+        >
+          转换
+        </button>
+        <div id="timestampResult" class="mt-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg hidden">
+          <div class="space-y-2">
+            <div><span class="font-medium">日期时间：</span><span id="resultDate" class="font-mono"></span></div>
+            <div><span class="font-medium">10位时间戳：</span><span id="resultTimestamp10" class="font-mono"></span></div>
+            <div><span class="font-medium">13位时间戳：</span><span id="resultTimestamp13" class="font-mono"></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 日期时间转时间戳 -->
+    <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+      <h2 class="text-xl font-semibold mb-4">日期时间转时间戳</h2>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-2">日期时间：</label>
+          <input 
+            type="datetime-local" 
+            id="dateInput"
+            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 theme-focus-ring focus:border-transparent"
+          />
+        </div>
+        <button 
+          onclick="dateToTimestamp()"
+          class="w-full px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover transition-colors"
+        >
+          转换
+        </button>
+        <div id="dateResult" class="mt-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg hidden">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-medium">10位时间戳：</span>
+              <div class="flex items-center space-x-2">
+                <span id="resultTimestamp10FromDate" class="font-mono"></span>
+                <button 
+                  onclick="copyResult('resultTimestamp10FromDate')"
+                  class="px-3 py-1 theme-bg text-white rounded theme-bg-hover text-sm"
+                >
+                  复制
+                </button>
+              </div>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="font-medium">13位时间戳：</span>
+              <div class="flex items-center space-x-2">
+                <span id="resultTimestamp13FromDate" class="font-mono"></span>
+                <button 
+                  onclick="copyResult('resultTimestamp13FromDate')"
+                  class="px-3 py-1 theme-bg text-white rounded theme-bg-hover text-sm"
+                >
+                  复制
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
+    <div class="container mx-auto px-4 py-6">
+      <div class="text-center text-gray-600 dark:text-gray-400">
+        <p>&copy; 2024 在线工具集合. 保留所有权利.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 脚本 -->
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/theme.js"></script>
+  <script src="../assets/js/common.js"></script>
+  <script src="../assets/js/analytics.js"></script>
+  
+  <script>
+    // 更新当前时间
+    function updateCurrentTime() {
+      const now = new Date();
+      const timeStr = now.toLocaleString('zh-CN', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      });
+      
+      document.getElementById('currentTime').textContent = timeStr;
+      
+      // 10位时间戳（秒）
+      const timestamp10 = Math.floor(now.getTime() / 1000);
+      document.getElementById('timestamp10').textContent = timestamp10;
+      
+      // 13位时间戳（毫秒）
+      const timestamp13 = now.getTime();
+      document.getElementById('timestamp13').textContent = timestamp13;
+    }
+
+    // 复制时间戳
+    function copyTimestamp(type) {
+      const timestamp = type === '10' 
+        ? document.getElementById('timestamp10').textContent
+        : document.getElementById('timestamp13').textContent;
+      Utils.copyToClipboard(timestamp).then(() => {
+        Utils.showToast('已复制到剪贴板');
+      });
+    }
+
+    // 时间戳转日期
+    function timestampToDate() {
+      const input = document.getElementById('timestampInput').value.trim();
+      if (!input) {
+        Utils.showToast('请输入时间戳', 'error');
+        return;
+      }
+
+      let timestamp = parseInt(input);
+      if (isNaN(timestamp)) {
+        Utils.showToast('时间戳格式错误', 'error');
+        return;
+      }
+
+      // 判断是10位还是13位
+      if (timestamp.toString().length === 10) {
+        timestamp = timestamp * 1000;
+      }
+
+      const date = new Date(timestamp);
+      if (isNaN(date.getTime())) {
+        Utils.showToast('时间戳无效', 'error');
+        return;
+      }
+
+      const dateStr = date.toLocaleString('zh-CN', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      });
+
+      document.getElementById('resultDate').textContent = dateStr;
+      document.getElementById('resultTimestamp10').textContent = Math.floor(timestamp / 1000);
+      document.getElementById('resultTimestamp13').textContent = timestamp;
+      document.getElementById('timestampResult').classList.remove('hidden');
+
+      // 保存转换历史
+      const history = Storage.local.get('timeConversionHistory', []);
+      history.unshift({
+        timestamp: input,
+        date: dateStr,
+        time: new Date().toISOString()
+      });
+      if (history.length > 10) history.pop();
+      Storage.local.set('timeConversionHistory', history);
+    }
+
+    // 日期转时间戳
+    function dateToTimestamp() {
+      const input = document.getElementById('dateInput').value;
+      if (!input) {
+        Utils.showToast('请选择日期时间', 'error');
+        return;
+      }
+
+      const date = new Date(input);
+      const timestamp10 = Math.floor(date.getTime() / 1000);
+      const timestamp13 = date.getTime();
+
+      document.getElementById('resultTimestamp10FromDate').textContent = timestamp10;
+      document.getElementById('resultTimestamp13FromDate').textContent = timestamp13;
+      document.getElementById('dateResult').classList.remove('hidden');
+    }
+
+    // 复制结果
+    function copyResult(elementId) {
+      const text = document.getElementById(elementId).textContent;
+      Utils.copyToClipboard(text).then(() => {
+        Utils.showToast('已复制到剪贴板');
+      });
+    }
+
+    // 初始化
+    updateCurrentTime();
+    setInterval(updateCurrentTime, 1000);
+
+    // 回车键支持
+    document.getElementById('timestampInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') timestampToDate();
+    });
+  </script>
+</body>
+</html>
+

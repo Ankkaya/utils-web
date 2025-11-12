@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="JSON格式化工具，支持JSON美化、压缩、验证格式，格式化输出">
+  <meta name="keywords" content="JSON格式化,JSON美化,JSON压缩,JSON验证,JSON工具">
+  <link rel="canonical" href="http://utils.ankkaya.top/tools/json.html">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="JSON格式化工具 - 在线工具集合">
+  <meta property="og:description" content="在线JSON工具，支持一键美化、压缩和语法校验">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://utils.ankkaya.top/tools/json.html">
+  <meta property="og:site_name" content="在线工具集合">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="JSON格式化工具 - 在线工具集合">
+  <meta name="twitter:description" content="快速格式化、压缩、校验JSON数据的在线工具">
+  <meta name="twitter:url" content="http://utils.ankkaya.top/tools/json.html">
+
+  <title>JSON格式化工具 - 在线工具集合</title>
+  <!-- 阿里妈妈字体（阿里巴巴普惠体） -->
+  <link rel="preconnect" href="https://at.alicdn.com" crossorigin>
+  <style>
+    @font-face {
+      font-family: 'Alibaba PuHuiTi';
+      src: url('https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot');
+      src: url('https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot?#iefix') format('embedded-opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['selector', '[data-theme="dark"]'],
+    }
+  </script>
+  <link rel="stylesheet" href="../assets/css/main.css">
+
+  <!-- 结构化数据 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "JSON格式化工具",
+    "url": "http://utils.ankkaya.top/tools/json.html",
+    "applicationCategory": "UtilityApplication",
+    "description": "支持JSON美化、压缩、验证和格式化输出的在线工具"
+  }
+  </script>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+  <header class="shadow-sm">
+    <nav class="container mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <a href="../index.html" class="text-xl font-bold theme-color">在线工具集合</a>
+        <div class="flex items-center space-x-4">
+          <a href="../index.html" class="text-gray-700 dark:text-gray-300 theme-color-hover">首页</a>
+          <a href="all-tools.html" class="text-gray-700 dark:text-gray-300 theme-color-hover">全部工具</a>
+          <!-- 颜色选择器 -->
+          <div class="relative">
+            <button data-color-picker-toggle
+              class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" aria-label="选择主题色">
+              <svg class="w-5 h-5 theme-color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+              </svg>
+            </button>
+            <!-- 颜色选择面板 -->
+            <div id="colorPickerPanel"
+              class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4 z-50">
+              <div class="mb-3">
+                <h3 class="text-sm font-semibold mb-2">预设颜色</h3>
+                <div class="grid grid-cols-4 gap-2" id="presetColors">
+                  <!-- 预设颜色将通过JavaScript动态生成 -->
+                </div>
+              </div>
+              <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
+                <label class="block text-sm font-semibold mb-2">自定义颜色</label>
+                <div class="flex items-center space-x-2">
+                  <input type="color" id="customColorPicker" class="w-12 h-10 rounded cursor-pointer" value="#3b82f6" />
+                  <input type="text" id="customColorInput" placeholder="#3b82f6"
+                    class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-sm font-mono"
+                    maxlength="7" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 主题切换按钮 -->
+          <button data-theme-toggle class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            aria-label="切换主题">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="flex-grow container mx-auto px-4 py-8 max-w-6xl">
+    <h1 class="text-3xl font-bold mb-6 flex items-center">
+      <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+        <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+        </svg>
+      </div>
+      JSON格式化工具
+    </h1>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-semibold mb-4">输入JSON</h2>
+        <textarea id="jsonInput" placeholder='请输入JSON，例如：{"name":"test","value":123}'
+          class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 theme-focus-ring font-mono text-sm"
+          rows="15"></textarea>
+        <div class="mt-4 flex space-x-3">
+          <button onclick="formatJSON()"
+            class="flex-1 px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover">格式化</button>
+          <button onclick="compressJSON()"
+            class="flex-1 px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover">压缩</button>
+          <button onclick="validateJSON()"
+            class="flex-1 px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover">验证</button>
+        </div>
+        <div id="jsonError" class="mt-3 text-red-600 dark:text-red-400 hidden"></div>
+      </section>
+
+      <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xl font-semibold">格式化结果</h2>
+          <button onclick="copyJSON()" class="px-3 py-1 theme-bg text-white rounded theme-bg-hover text-sm">复制</button>
+        </div>
+        <pre id="jsonOutput"
+          class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 font-mono text-sm overflow-auto"
+          style="min-height: 300px; max-height: 400px;"></pre>
+      </section>
+    </div>
+  </main>
+
+  <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
+    <div class="container mx-auto px-4 py-6">
+      <div class="text-center text-gray-600 dark:text-gray-400">
+        <p>&copy; 2024 在线工具集合. 保留所有权利.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/theme.js"></script>
+  <script src="../assets/js/common.js"></script>
+  <script src="../assets/js/analytics.js"></script>
+  <script>
+    function formatJSON() {
+      const input = document.getElementById('jsonInput').value.trim();
+      if (!input) {
+        Utils.showToast('请输入JSON', 'error');
+        return;
+      }
+      try {
+        const obj = JSON.parse(input);
+        const formatted = JSON.stringify(obj, null, 2);
+        document.getElementById('jsonOutput').textContent = formatted;
+        document.getElementById('jsonError').classList.add('hidden');
+        Storage.local.set('lastJSON', input);
+      } catch (e) {
+        showError('JSON格式错误: ' + e.message);
+      }
+    }
+
+    function compressJSON() {
+      const input = document.getElementById('jsonInput').value.trim();
+      if (!input) return;
+      try {
+        const obj = JSON.parse(input);
+        const compressed = JSON.stringify(obj);
+        document.getElementById('jsonOutput').textContent = compressed;
+        document.getElementById('jsonError').classList.add('hidden');
+      } catch (e) {
+        showError('JSON格式错误: ' + e.message);
+      }
+    }
+
+    function validateJSON() {
+      const input = document.getElementById('jsonInput').value.trim();
+      if (!input) {
+        Utils.showToast('请输入JSON', 'error');
+        return;
+      }
+      try {
+        JSON.parse(input);
+        Utils.showToast('JSON格式正确');
+        document.getElementById('jsonError').classList.add('hidden');
+      } catch (e) {
+        showError('JSON格式错误: ' + e.message);
+      }
+    }
+
+    function copyJSON() {
+      const output = document.getElementById('jsonOutput').textContent;
+      if (!output) {
+        Utils.showToast('没有可复制的内容', 'error');
+        return;
+      }
+      Utils.copyToClipboard(output).then(() => {
+        Utils.showToast('已复制到剪贴板');
+      });
+    }
+
+    function showError(message) {
+      const errorEl = document.getElementById('jsonError');
+      errorEl.textContent = message;
+      errorEl.classList.remove('hidden');
+    }
+
+    // 恢复上次的JSON
+    window.addEventListener('DOMContentLoaded', () => {
+      const lastJSON = Storage.local.get('lastJSON');
+      if (lastJSON) {
+        document.getElementById('jsonInput').value = lastJSON;
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="在线工具集合网站，提供时间戳转换、图片Base64转换、JSON格式化、URL编码解码等实用工具">
+  <meta name="keywords" content="在线工具,时间戳转换,Base64转换,JSON格式化,URL编码,工具集合">
+  <link rel="canonical" href="http://utils.ankkaya.top/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="在线工具集合 - 实用工具网站">
+  <meta property="og:description" content="提供多种实用的在线工具，包括时间戳转换、图片Base64转换、JSON格式化等">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://utils.ankkaya.top/">
+  <meta property="og:site_name" content="在线工具集合">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="在线工具集合 - 实用工具网站">
+  <meta name="twitter:description" content="提供多种实用的在线工具">
+  <meta name="twitter:url" content="http://utils.ankkaya.top/">
+
+  <title>在线工具集合 - 实用工具网站</title>
+
+  <!-- 阿里妈妈字体（阿里巴巴普惠体） -->
+  <link rel="preconnect" href="https://at.alicdn.com" crossorigin>
+  <style>
+    @font-face {
+      font-family: 'Alibaba PuHuiTi';
+      src: url('https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot');
+      src: url('https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot?#iefix') format('embedded-opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['selector', '[data-theme="dark"]'],
+    }
+  </script>
+
+  <!-- 自定义样式 -->
+  <link rel="stylesheet" href="assets/css/main.css">
+
+  <!-- 结构化数据 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "在线工具集合",
+    "description": "提供多种实用的在线工具",
+    "url": "http://utils.ankkaya.top/"
+  }
+  </script>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+  <!-- 导航栏 -->
+  <header class="shadow-sm">
+    <nav class="container mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <a href="index.html" class="text-xl font-bold theme-color">
+          在线工具集合
+        </a>
+        <div class="flex items-center space-x-4">
+          <a href="tools/all-tools.html" class="text-gray-700 dark:text-gray-300 theme-color-hover">
+            全部工具
+          </a>
+          <!-- 颜色选择器 -->
+          <div class="relative">
+            <button data-color-picker-toggle
+              class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" aria-label="选择主题色">
+              <svg class="w-5 h-5 theme-color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+              </svg>
+            </button>
+            <!-- 颜色选择面板 -->
+            <div id="colorPickerPanel"
+              class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4 z-50">
+              <div class="mb-3">
+                <h3 class="text-sm font-semibold mb-2">预设颜色</h3>
+                <div class="grid grid-cols-4 gap-2" id="presetColors">
+                  <!-- 预设颜色将通过JavaScript动态生成 -->
+                </div>
+              </div>
+              <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
+                <label class="block text-sm font-semibold mb-2">自定义颜色</label>
+                <div class="flex items-center space-x-2">
+                  <input type="color" id="customColorPicker" class="w-12 h-10 rounded cursor-pointer" value="#3b82f6" />
+                  <input type="text" id="customColorInput" placeholder="#3b82f6"
+                    class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-sm font-mono"
+                    maxlength="7" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 主题切换按钮 -->
+          <button data-theme-toggle class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            aria-label="切换主题">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- 主要内容 -->
+  <main class="flex-grow container mx-auto px-4 py-8">
+    <!-- 网站介绍 -->
+    <section class="text-center mb-12">
+      <h1 class="text-4xl font-bold mb-4">在线工具集合</h1>
+      <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+        提供多种实用的在线工具，帮助您提高工作效率。所有工具均可在浏览器中直接使用，无需安装，数据安全隐私保护。
+      </p>
+    </section>
+
+    <!-- 工具分类 -->
+    <section>
+      <h2 class="text-2xl font-bold mb-6">工具分类</h2>
+
+      <!-- 时间工具 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg cursor-pointer"
+          onclick="window.location.href='tools/time.html'">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mr-4">
+              <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold">时间工具</h3>
+          </div>
+          <p class="text-gray-600 dark:text-gray-400">
+            显示当前时间，支持10位和13位时间戳转换，日期时间互转
+          </p>
+        </div>
+
+        <!-- 图片Base64工具 -->
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg cursor-pointer"
+          onclick="window.location.href='tools/image.html'">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mr-4">
+              <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold">图片Base64转换</h3>
+          </div>
+          <p class="text-gray-600 dark:text-gray-400">
+            图片文件转Base64编码，Base64编码转图片预览
+          </p>
+        </div>
+
+        <!-- JSON格式化工具 -->
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg cursor-pointer"
+          onclick="window.location.href='tools/json.html'">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-4">
+              <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold">JSON格式化</h3>
+          </div>
+          <p class="text-gray-600 dark:text-gray-400">
+            JSON美化、压缩、验证格式，支持格式化输出
+          </p>
+        </div>
+
+        <!-- URL编码解码工具 -->
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg cursor-pointer"
+          onclick="window.location.href='tools/url.html'">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-lg flex items-center justify-center mr-4">
+              <svg class="w-6 h-6 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold">URL编码/解码</h3>
+          </div>
+          <p class="text-gray-600 dark:text-gray-400">
+            URL编码、解码，查询参数解析和格式化
+          </p>
+        </div>
+
+        <!-- 二维码生成工具 -->
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg cursor-pointer"
+          onclick="window.location.href='tools/qrcode.html'">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-red-100 dark:bg-red-900 rounded-lg flex items-center justify-center mr-4">
+              <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold">二维码生成</h3>
+          </div>
+          <p class="text-gray-600 dark:text-gray-400">
+            文本转二维码图片，支持自定义大小和下载
+          </p>
+        </div>
+
+        <!-- 哈希计算工具 -->
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg cursor-pointer"
+          onclick="window.location.href='tools/hash.html'">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900 rounded-lg flex items-center justify-center mr-4">
+              <svg class="w-6 h-6 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold">哈希计算</h3>
+          </div>
+          <p class="text-gray-600 dark:text-gray-400">
+            MD5、SHA1、SHA256等哈希值计算
+          </p>
+        </div>
+
+        <!-- 颜色选择器工具 -->
+        <div class="tool-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg cursor-pointer"
+          onclick="window.location.href='tools/color.html'">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-pink-100 dark:bg-pink-900 rounded-lg flex items-center justify-center mr-4">
+              <svg class="w-6 h-6 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold">颜色选择器</h3>
+          </div>
+          <p class="text-gray-600 dark:text-gray-400">
+            颜色选择、格式转换（HEX/RGB/HSL）
+          </p>
+        </div>
+      </div>
+
+      <!-- 查看全部工具按钮 -->
+      <div class="text-center">
+        <a href="tools/all-tools.html"
+          class="inline-block px-6 py-3 theme-bg text-white rounded-lg theme-bg-hover transition-colors">
+          查看全部工具
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
+    <div class="container mx-auto px-4 py-6">
+      <div class="text-center text-gray-600 dark:text-gray-400">
+        <p>&copy; 2024 在线工具集合. 保留所有权利.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 脚本 -->
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/common.js"></script>
+  <script src="assets/js/analytics.js"></script>
+
+</body>
+
+</html>

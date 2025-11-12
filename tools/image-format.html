@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="在线图片格式转换工具，支持 JPG、PNG、WebP、BMP 等常见格式互转，并提供质量与背景色设置">
+  <meta name="keywords" content="图片格式转换,PNG转JPG,JPG转WebP,图片转换">
+  <link rel="canonical" href="http://utils.ankkaya.top/tools/image-format.html">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="图片格式转换工具 - 在线工具集合">
+  <meta property="og:description" content="支持多种图片格式互转，自定义质量与背景色，快速下载转换结果">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://utils.ankkaya.top/tools/image-format.html">
+  <meta property="og:site_name" content="在线工具集合">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="图片格式转换工具 - 在线工具集合">
+  <meta name="twitter:description" content="JPG、PNG、WebP 等格式互转，支持调整质量与背景色">
+  <meta name="twitter:url" content="http://utils.ankkaya.top/tools/image-format.html">
+
+  <title>图片格式转换工具 - 在线工具集合</title>
+
+  <!-- 阿里妈妈字体（阿里巴巴普惠体） -->
+  <link rel="preconnect" href="https://at.alicdn.com" crossorigin>
+  <style>
+    @font-face {
+      font-family: 'Alibaba PuHuiTi';
+      src: url('https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot');
+      src: url('https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot?#iefix') format('embedded-opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['selector', '[data-theme="dark"]'],
+    }
+  </script>
+
+  <!-- 自定义样式 -->
+  <link rel="stylesheet" href="../assets/css/main.css">
+
+  <!-- 结构化数据 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "图片格式转换工具",
+    "url": "http://utils.ankkaya.top/tools/image-format.html",
+    "applicationCategory": "UtilityApplication",
+    "description": "上传图片后可在 JPG、PNG、WebP、BMP 等常见格式之间互相转换，支持设置品质与背景色"
+  }
+  </script>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+  <!-- 导航栏 -->
+  <header class="shadow-sm">
+    <nav class="container mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <a href="../index.html" class="text-xl font-bold theme-color">
+          在线工具集合
+        </a>
+        <div class="flex items-center space-x-4">
+          <a href="../index.html" class="text-gray-700 dark:text-gray-300 theme-color-hover">首页</a>
+          <a href="all-tools.html" class="text-gray-700 dark:text-gray-300 theme-color-hover">全部工具</a>
+          <!-- 颜色选择器 -->
+          <div class="relative">
+            <button data-color-picker-toggle
+              class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" aria-label="选择主题色">
+              <svg class="w-5 h-5 theme-color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+              </svg>
+            </button>
+            <!-- 颜色选择面板 -->
+            <div id="colorPickerPanel"
+              class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4 z-50">
+              <div class="mb-3">
+                <h3 class="text-sm font-semibold mb-2">预设颜色</h3>
+                <div class="grid grid-cols-4 gap-2" id="presetColors">
+                  <!-- 预设颜色将通过JavaScript动态生成 -->
+                </div>
+              </div>
+              <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
+                <label class="block text-sm font-semibold mb-2">自定义颜色</label>
+                <div class="flex items-center space-x-2">
+                  <input type="color" id="customColorPicker" class="w-12 h-10 rounded cursor-pointer" value="#3b82f6" />
+                  <input type="text" id="customColorInput" placeholder="#3b82f6"
+                    class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-sm font-mono"
+                    maxlength="7" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 主题切换按钮 -->
+          <button data-theme-toggle class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            aria-label="切换主题">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- 主要内容 -->
+  <main class="flex-grow container mx-auto px-4 py-8 max-w-5xl">
+    <h1 class="text-3xl font-bold mb-6 flex items-center">
+      <div class="w-10 h-10 bg-orange-100 dark:bg-orange-900 rounded-lg flex items-center justify-center mr-3">
+        <svg class="w-6 h-6 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 17v-4a1 1 0 011-1h4m4 5v-6a1 1 0 00-1-1h-5V7a1 1 0 00-1-1H7m0 12h.01M7 7h.01" />
+        </svg>
+      </div>
+      图片格式转换工具
+    </h1>
+
+    <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+      <h2 class="text-xl font-semibold mb-4">上传图片</h2>
+      <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center">
+        <input type="file" id="formatImageInput" accept="image/*" class="hidden" />
+        <label for="formatImageInput" class="cursor-pointer block">
+          <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 4v16m8-8H4" />
+          </svg>
+          <p class="text-gray-600 dark:text-gray-400">点击选择图片或拖拽到此处</p>
+          <p class="text-sm text-gray-500 mt-2">建议使用 JPG、PNG、WebP 等常见格式</p>
+        </label>
+      </div>
+      <p id="formatTips" class="text-sm text-gray-500 dark:text-gray-400 mt-3 hidden"></p>
+    </section>
+
+    <section id="formatSettingsSection" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6 hidden">
+      <h2 class="text-xl font-semibold mb-4">转换设置</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="block text-sm font-medium mb-2" for="targetFormat">目标格式</label>
+          <select id="targetFormat"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700">
+            <option value="image/png">PNG（保持透明）</option>
+            <option value="image/jpeg">JPEG（体积更小）</option>
+            <option value="image/webp">WebP（高效压缩）</option>
+            <option value="image/bmp">BMP（兼容性强）</option>
+          </select>
+        </div>
+        <div id="qualityWrapper">
+          <label class="block text-sm font-medium mb-2" for="formatQuality">图片质量</label>
+          <input type="range" id="formatQuality" min="0.1" max="1" step="0.05" value="0.9" class="w-full accent-orange-500">
+          <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400">
+            <span>更高品质</span>
+            <span id="qualityDisplay">90%</span>
+            <span>更小体积</span>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2" for="backgroundColor">背景颜色（非透明格式）</label>
+          <div class="flex items-center space-x-3">
+            <input type="color" id="backgroundColor" value="#ffffff" class="w-12 h-10 rounded cursor-pointer">
+            <input type="text" id="backgroundColorInput" value="#ffffff"
+              class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-sm font-mono"
+              maxlength="7">
+          </div>
+          <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">当转换为 JPEG、BMP 等不支持透明的格式时，将使用该颜色填充背景。</p>
+        </div>
+      </div>
+      <div class="mt-6 flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-3 sm:space-y-0">
+        <button id="startConvertBtn"
+          class="px-6 py-2 theme-bg text-white rounded-lg theme-bg-hover transition-colors flex items-center justify-center">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M17 8l4 4m0 0l-4 4m4-4H7" />
+          </svg>
+          开始转换
+        </button>
+        <button id="saveFormatSettingsBtn"
+          class="px-6 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+          保存参数
+        </button>
+        <span id="convertStatus" class="text-sm text-gray-500 dark:text-gray-400"></span>
+      </div>
+    </section>
+
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-semibold mb-4">原始图片</h2>
+        <div id="formatOriginalPreview" class="hidden">
+          <img id="formatOriginalImage" src="" alt="原始图片预览" class="max-w-full h-auto rounded-lg">
+          <p id="formatOriginalInfo" class="mt-3 text-sm text-gray-600 dark:text-gray-400"></p>
+        </div>
+        <p id="formatOriginalPlaceholder" class="text-gray-500 dark:text-gray-400">上传图片后显示原始信息</p>
+      </div>
+
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-semibold mb-4">转换结果</h2>
+        <div id="formatResultPreview" class="hidden">
+          <img id="formatResultImage" src="" alt="转换图片预览" class="max-w-full h-auto rounded-lg">
+          <p id="formatResultInfo" class="mt-3 text-sm text-gray-600 dark:text-gray-400"></p>
+          <div class="mt-4 flex space-x-3">
+            <button id="downloadFormatBtn"
+              class="flex-1 px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover transition-colors">下载转换图片</button>
+            <button id="copyDataUrlBtn"
+              class="flex-1 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">复制Data URL</button>
+          </div>
+        </div>
+        <p id="formatResultPlaceholder" class="text-gray-500 dark:text-gray-400">转换完成后显示结果信息</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
+    <div class="container mx-auto px-4 py-6">
+      <div class="text-center text-gray-600 dark:text-gray-400">
+        <p>&copy; 2024 在线工具集合. 保留所有权利.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 脚本 -->
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/theme.js"></script>
+  <script src="../assets/js/common.js"></script>
+  <script src="../assets/js/analytics.js"></script>
+
+  <script>
+    const formatInput = document.getElementById('formatImageInput');
+    const formatTips = document.getElementById('formatTips');
+    const settingsSection = document.getElementById('formatSettingsSection');
+    const targetFormatSelect = document.getElementById('targetFormat');
+    const qualityWrapper = document.getElementById('qualityWrapper');
+    const qualityRange = document.getElementById('formatQuality');
+    const qualityDisplay = document.getElementById('qualityDisplay');
+    const backgroundColor = document.getElementById('backgroundColor');
+    const backgroundColorInput = document.getElementById('backgroundColorInput');
+    const convertStatus = document.getElementById('convertStatus');
+
+    const originalPreview = document.getElementById('formatOriginalPreview');
+    const originalPlaceholder = document.getElementById('formatOriginalPlaceholder');
+    const originalImage = document.getElementById('formatOriginalImage');
+    const originalInfo = document.getElementById('formatOriginalInfo');
+
+    const resultPreview = document.getElementById('formatResultPreview');
+    const resultPlaceholder = document.getElementById('formatResultPlaceholder');
+    const resultImage = document.getElementById('formatResultImage');
+    const resultInfo = document.getElementById('formatResultInfo');
+
+    const startConvertBtn = document.getElementById('startConvertBtn');
+    const downloadFormatBtn = document.getElementById('downloadFormatBtn');
+    const copyDataUrlBtn = document.getElementById('copyDataUrlBtn');
+    const saveSettingsBtn = document.getElementById('saveFormatSettingsBtn');
+
+    const dropZone = formatInput.parentElement.parentElement;
+
+    let originalFile = null;
+    let originalDataUrl = '';
+    let convertedBlob = null;
+    let convertedObjectUrl = '';
+    let convertedDataUrl = '';
+    let imageElement = new Image();
+
+    function resetConvertedUrl() {
+      if (convertedObjectUrl) {
+        URL.revokeObjectURL(convertedObjectUrl);
+        convertedObjectUrl = '';
+      }
+    }
+
+    function updateQualityDisplay() {
+      qualityDisplay.textContent = Math.round(parseFloat(qualityRange.value) * 100) + '%';
+    }
+
+    function updateQualityVisibility() {
+      const format = targetFormatSelect.value;
+      const needQuality = format === 'image/jpeg' || format === 'image/webp';
+      qualityWrapper.style.display = needQuality ? 'block' : 'none';
+    }
+
+    function syncBackgroundInputs(value) {
+      if (!/^#[0-9A-F]{6}$/i.test(value)) {
+        return;
+      }
+      backgroundColor.value = value;
+      backgroundColorInput.value = value;
+    }
+
+    function handleFile(file) {
+      if (!file.type.startsWith('image/')) {
+        Utils.showToast('请选择图片文件', 'error');
+        return;
+      }
+
+      if (file.size > 30 * 1024 * 1024) {
+        Utils.showToast('图片大小超过 30MB，请先压缩或更换图片', 'error');
+        return;
+      }
+
+      originalFile = file;
+      resetConvertedUrl();
+      convertedBlob = null;
+      resultPreview.classList.add('hidden');
+      resultPlaceholder.classList.remove('hidden');
+      convertStatus.textContent = '';
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        originalDataUrl = event.target.result;
+        imageElement = new Image();
+        imageElement.onload = () => {
+          originalImage.src = originalDataUrl;
+          originalInfo.textContent = `文件名: ${file.name} | 尺寸: ${imageElement.naturalWidth}×${imageElement.naturalHeight} | 大小: ${Utils.formatFileSize(file.size)} | 类型: ${file.type}`;
+          originalPreview.classList.remove('hidden');
+          originalPlaceholder.classList.add('hidden');
+          settingsSection.classList.remove('hidden');
+          formatTips.textContent = '提示：选择转换格式与参数后点击开始转换，可复制Data URL或下载图片。';
+          formatTips.classList.remove('hidden');
+          Storage.session.set('lastFormatImage', originalDataUrl);
+          Analytics.trackEvent('image_format', 'upload');
+        };
+        imageElement.onerror = () => {
+          Utils.showToast('图片加载失败', 'error');
+        };
+        imageElement.src = originalDataUrl;
+      };
+      reader.onerror = () => {
+        Utils.showToast('读取文件失败', 'error');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function needsBackgroundFill(format) {
+      return format === 'image/jpeg' || format === 'image/bmp';
+    }
+
+    function convertImage() {
+      if (!originalDataUrl) {
+        Utils.showToast('请先上传图片', 'error');
+        return;
+      }
+
+      const targetFormat = targetFormatSelect.value;
+      const quality = parseFloat(qualityRange.value);
+      const canvas = document.createElement('canvas');
+      canvas.width = imageElement.naturalWidth;
+      canvas.height = imageElement.naturalHeight;
+      const ctx = canvas.getContext('2d');
+
+      if (needsBackgroundFill(targetFormat)) {
+        ctx.fillStyle = backgroundColor.value;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      ctx.drawImage(imageElement, 0, 0, canvas.width, canvas.height);
+
+      convertStatus.textContent = '正在转换，请稍候...';
+
+      const toBlobQuality = targetFormat === 'image/png' || targetFormat === 'image/bmp' ? undefined : quality;
+
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          Utils.showToast('转换失败，请重试', 'error');
+          convertStatus.textContent = '';
+          return;
+        }
+
+        resetConvertedUrl();
+        convertedBlob = blob;
+        convertedObjectUrl = URL.createObjectURL(blob);
+        resultImage.src = convertedObjectUrl;
+        convertedDataUrl = canvas.toDataURL(targetFormat, toBlobQuality);
+
+        const extension = targetFormat.split('/')[1] || 'png';
+        const infoLines = [
+          `目标格式: ${targetFormatSelect.options[targetFormatSelect.selectedIndex].text}`,
+          `大小: ${Utils.formatFileSize(blob.size)}`,
+          `尺寸: ${canvas.width}×${canvas.height}`
+        ];
+        resultInfo.innerHTML = infoLines.join(' | ');
+
+        resultPreview.classList.remove('hidden');
+        resultPlaceholder.classList.add('hidden');
+        convertStatus.textContent = '转换完成，可下载或复制结果。';
+
+        Storage.session.set('lastFormatResult', {
+          dataUrl: convertedDataUrl,
+          format: targetFormat,
+          size: blob.size,
+          width: canvas.width,
+          height: canvas.height
+        });
+
+        Analytics.trackEvent('image_format', 'convert');
+      }, targetFormat, toBlobQuality);
+    }
+
+    function downloadConverted() {
+      if (!convertedBlob) {
+        Utils.showToast('请先完成格式转换', 'error');
+        return;
+      }
+
+      const extension = targetFormatSelect.value.split('/')[1] || 'png';
+      const filename = originalFile ? originalFile.name.replace(/\.[^.]+$/, '') + `_converted.` + extension : `converted.${extension}`;
+
+      const url = URL.createObjectURL(convertedBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      Analytics.trackEvent('image_format', 'download');
+    }
+
+    function copyDataUrl() {
+      if (!convertedDataUrl) {
+        Utils.showToast('暂无可复制的结果，请先转换', 'error');
+        return;
+      }
+
+      Utils.copyToClipboard(convertedDataUrl).then((success) => {
+        if (success) {
+          Utils.showToast('Data URL 已复制到剪贴板');
+          Analytics.trackEvent('image_format', 'copy_data_url');
+        } else {
+          Utils.showToast('复制失败，请手动复制', 'error');
+        }
+      });
+    }
+
+    function saveSettings() {
+      const settings = {
+        format: targetFormatSelect.value,
+        quality: parseFloat(qualityRange.value),
+        background: backgroundColor.value
+      };
+      Storage.local.set('imageFormatSettings', settings);
+      Utils.showToast('转换参数已保存');
+      Analytics.trackEvent('image_format', 'save_settings');
+    }
+
+    function restoreSettings() {
+      const saved = Storage.local.get('imageFormatSettings');
+      if (!saved) return;
+      if (saved.format) {
+        targetFormatSelect.value = saved.format;
+      }
+      if (typeof saved.quality === 'number') {
+        qualityRange.value = saved.quality;
+      }
+      if (saved.background && /^#[0-9A-F]{6}$/i.test(saved.background)) {
+        backgroundColor.value = saved.background;
+        backgroundColorInput.value = saved.background;
+      }
+      updateQualityDisplay();
+      updateQualityVisibility();
+    }
+
+    formatInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        handleFile(file);
+      }
+    });
+
+    targetFormatSelect.addEventListener('change', () => {
+      updateQualityVisibility();
+      convertStatus.textContent = '';
+    });
+
+    qualityRange.addEventListener('input', updateQualityDisplay);
+
+    backgroundColor.addEventListener('input', (event) => {
+      syncBackgroundInputs(event.target.value);
+    });
+
+    backgroundColorInput.addEventListener('change', (event) => {
+      let value = event.target.value;
+      if (!value.startsWith('#')) {
+        value = '#' + value;
+      }
+      if (!/^#[0-9A-F]{6}$/i.test(value)) {
+        Utils.showToast('请输入有效的十六进制颜色值', 'error');
+        event.target.value = backgroundColor.value;
+        return;
+      }
+      syncBackgroundInputs(value);
+    });
+
+    startConvertBtn.addEventListener('click', convertImage);
+    downloadFormatBtn.addEventListener('click', downloadConverted);
+    copyDataUrlBtn.addEventListener('click', copyDataUrl);
+    saveSettingsBtn.addEventListener('click', saveSettings);
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      const themeColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim();
+      dropZone.style.borderColor = themeColor;
+      dropZone.style.backgroundColor = themeColor + '20';
+    });
+
+    dropZone.addEventListener('dragleave', (e) => {
+      e.preventDefault();
+      dropZone.style.borderColor = '';
+      dropZone.style.backgroundColor = '';
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.style.borderColor = '';
+      dropZone.style.backgroundColor = '';
+      const file = e.dataTransfer.files[0];
+      if (file) {
+        handleFile(file);
+      }
+    });
+
+    window.addEventListener('beforeunload', resetConvertedUrl);
+
+    window.addEventListener('DOMContentLoaded', () => {
+      updateQualityDisplay();
+      updateQualityVisibility();
+      restoreSettings();
+
+      const lastImage = Storage.session.get('lastFormatImage');
+      if (lastImage) {
+        originalDataUrl = lastImage;
+        imageElement = new Image();
+        imageElement.onload = () => {
+          originalImage.src = lastImage;
+          originalInfo.textContent = '已恢复上次上传的图片数据，可直接选择目标格式。';
+          originalPreview.classList.remove('hidden');
+          originalPlaceholder.classList.add('hidden');
+          settingsSection.classList.remove('hidden');
+        };
+        imageElement.src = lastImage;
+      }
+
+      const lastResult = Storage.session.get('lastFormatResult');
+      if (lastResult && lastResult.dataUrl) {
+        resultImage.src = lastResult.dataUrl;
+        resultInfo.textContent = `格式: ${lastResult.format} | 大小: ${Utils.formatFileSize(lastResult.size)} | 尺寸: ${lastResult.width}×${lastResult.height}`;
+        resultPreview.classList.remove('hidden');
+        resultPlaceholder.classList.add('hidden');
+        convertedDataUrl = lastResult.dataUrl;
+      }
+    });
+  </script>
+</body>
+
+</html>
+
+

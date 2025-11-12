@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="图片Base64转换工具，支持图片文件转Base64编码，Base64编码转图片预览，支持复制和下载">
+  <meta name="keywords" content="Base64转换,图片Base64,Base64编码,图片转Base64">
+  <link rel="canonical" href="http://utils.ankkaya.top/tools/image.html">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="图片Base64转换工具 - 在线工具集合">
+  <meta property="og:description" content="轻松将图片转换为Base64编码，也可将编码还原为图片预览">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://utils.ankkaya.top/tools/image.html">
+  <meta property="og:site_name" content="在线工具集合">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="图片Base64转换工具 - 在线工具集合">
+  <meta name="twitter:description" content="图片转Base64、Base64还原图片，一键复制下载">
+  <meta name="twitter:url" content="http://utils.ankkaya.top/tools/image.html">
+
+  <title>图片Base64转换工具 - 在线工具集合</title>
+
+  <!-- 阿里妈妈字体（阿里巴巴普惠体） -->
+  <link rel="preconnect" href="https://at.alicdn.com" crossorigin>
+  <style>
+    @font-face {
+      font-family: 'Alibaba PuHuiTi';
+      src: url('https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot');
+      src: url('https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot?#iefix') format('embedded-opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['selector', '[data-theme="dark"]'],
+    }
+  </script>
+
+  <!-- 自定义样式 -->
+  <link rel="stylesheet" href="../assets/css/main.css">
+
+  <!-- 结构化数据 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "图片Base64转换工具",
+    "url": "http://utils.ankkaya.top/tools/image.html",
+    "applicationCategory": "UtilityApplication",
+    "description": "支持图片文件转Base64编码，也可将Base64字符串还原为图片并支持复制下载"
+  }
+  </script>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+  <!-- 导航栏 -->
+  <header class="shadow-sm">
+    <nav class="container mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <a href="../index.html" class="text-xl font-bold theme-color">
+          在线工具集合
+        </a>
+        <div class="flex items-center space-x-4">
+          <a href="../index.html" class="text-gray-700 dark:text-gray-300 theme-color-hover">首页</a>
+          <a href="all-tools.html" class="text-gray-700 dark:text-gray-300 theme-color-hover">全部工具</a>
+          <!-- 颜色选择器 -->
+          <div class="relative">
+            <button data-color-picker-toggle
+              class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" aria-label="选择主题色">
+              <svg class="w-5 h-5 theme-color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+              </svg>
+            </button>
+            <!-- 颜色选择面板 -->
+            <div id="colorPickerPanel"
+              class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4 z-50">
+              <div class="mb-3">
+                <h3 class="text-sm font-semibold mb-2">预设颜色</h3>
+                <div class="grid grid-cols-4 gap-2" id="presetColors">
+                  <!-- 预设颜色将通过JavaScript动态生成 -->
+                </div>
+              </div>
+              <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
+                <label class="block text-sm font-semibold mb-2">自定义颜色</label>
+                <div class="flex items-center space-x-2">
+                  <input type="color" id="customColorPicker" class="w-12 h-10 rounded cursor-pointer" value="#3b82f6" />
+                  <input type="text" id="customColorInput" placeholder="#3b82f6"
+                    class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-sm font-mono"
+                    maxlength="7" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 主题切换按钮 -->
+          <button data-theme-toggle class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            aria-label="切换主题">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- 主要内容 -->
+  <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl">
+    <h1 class="text-3xl font-bold mb-6 flex items-center">
+      <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mr-3">
+        <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      </div>
+      图片Base64转换工具
+    </h1>
+
+    <!-- 图片转Base64 -->
+    <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+      <h2 class="text-xl font-semibold mb-4">图片转Base64</h2>
+      <div class="space-y-4">
+        <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center">
+          <input type="file" id="imageFileInput" accept="image/*" class="hidden" onchange="handleImageFile(event)" />
+          <label for="imageFileInput" class="cursor-pointer block">
+            <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <p class="text-gray-600 dark:text-gray-400">点击选择图片或拖拽图片到此处</p>
+            <p class="text-sm text-gray-500 mt-2">支持 JPG、PNG、GIF、WebP 等格式</p>
+          </label>
+        </div>
+
+        <div id="imagePreview" class="hidden mb-4">
+          <img id="previewImage" src="" alt="预览" class="max-w-full h-auto rounded-lg mx-auto max-h-64">
+          <div class="mt-2 text-center text-sm text-gray-600 dark:text-gray-400" id="imageInfo"></div>
+        </div>
+
+        <div id="base64Result" class="hidden">
+          <label class="block text-sm font-medium mb-2">Base64编码：</label>
+          <textarea id="base64Output" readonly
+            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 font-mono text-sm"
+            rows="6"></textarea>
+          <div class="mt-3 flex space-x-3">
+            <button onclick="copyBase64()"
+              class="flex-1 px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover transition-colors">
+              复制Base64
+            </button>
+            <button onclick="downloadBase64()"
+              class="flex-1 px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover transition-colors">
+              下载为文本文件
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Base64转图片 -->
+    <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+      <h2 class="text-xl font-semibold mb-4">Base64转图片</h2>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-2">Base64编码：</label>
+          <textarea id="base64Input" placeholder="请输入Base64编码（支持data:image/...格式）"
+            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 theme-focus-ring focus:border-transparent font-mono text-sm"
+            rows="6"></textarea>
+        </div>
+        <button onclick="base64ToImage()"
+          class="w-full px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover transition-colors">
+          转换并预览
+        </button>
+
+        <div id="imageResult" class="hidden mt-4">
+          <div class="border border-gray-300 dark:border-gray-600 rounded-lg p-4 bg-gray-50 dark:bg-gray-700">
+            <img id="resultImage" src="" alt="转换结果" class="max-w-full h-auto rounded-lg mx-auto max-h-64">
+            <div class="mt-4 flex space-x-3">
+              <button onclick="downloadImage()"
+                class="flex-1 px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover transition-colors">
+                下载图片
+              </button>
+              <button onclick="clearBase64Input()"
+                class="flex-1 px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover transition-colors">
+                清除
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
+    <div class="container mx-auto px-4 py-6">
+      <div class="text-center text-gray-600 dark:text-gray-400">
+        <p>&copy; 2024 在线工具集合. 保留所有权利.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 脚本 -->
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/theme.js"></script>
+  <script src="../assets/js/common.js"></script>
+  <script src="../assets/js/analytics.js"></script>
+
+  <script>
+    let currentBase64 = '';
+    let currentImageFile = null;
+
+    // 处理图片文件
+    function handleImageFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      if (!file.type.startsWith('image/')) {
+        Utils.showToast('请选择图片文件', 'error');
+        return;
+      }
+
+      currentImageFile = file;
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        const base64 = e.target.result;
+        currentBase64 = base64;
+
+        // 显示预览
+        document.getElementById('previewImage').src = base64;
+        document.getElementById('imagePreview').classList.remove('hidden');
+        document.getElementById('imageInfo').textContent =
+          `文件名: ${file.name} | 大小: ${Utils.formatFileSize(file.size)} | 类型: ${file.type}`;
+
+        // 显示Base64结果
+        document.getElementById('base64Output').value = base64;
+        document.getElementById('base64Result').classList.remove('hidden');
+
+        // 保存到sessionStorage
+        Storage.session.set('lastBase64', base64);
+      };
+
+      reader.onerror = function () {
+        Utils.showToast('读取文件失败', 'error');
+      };
+
+      reader.readAsDataURL(file);
+    }
+
+    // 复制Base64
+    function copyBase64() {
+      const base64 = document.getElementById('base64Output').value;
+      Utils.copyToClipboard(base64).then(() => {
+        Utils.showToast('Base64已复制到剪贴板');
+        Analytics.trackEvent('image', 'copy_base64');
+      });
+    }
+
+    // 下载Base64为文本文件
+    function downloadBase64() {
+      const base64 = document.getElementById('base64Output').value;
+      Utils.downloadFile(base64, 'image_base64.txt', 'text/plain');
+      Analytics.trackEvent('image', 'download_base64');
+    }
+
+    // Base64转图片
+    function base64ToImage() {
+      let base64 = document.getElementById('base64Input').value.trim();
+
+      if (!base64) {
+        Utils.showToast('请输入Base64编码', 'error');
+        return;
+      }
+
+      // 清理Base64字符串（移除data:image/...前缀如果存在）
+      if (base64.includes(',')) {
+        base64 = base64.split(',')[1];
+      }
+
+      try {
+        // 验证Base64格式
+        const image = new Image();
+        image.onload = function () {
+          document.getElementById('resultImage').src = 'data:image/png;base64,' + base64;
+          document.getElementById('imageResult').classList.remove('hidden');
+          Storage.session.set('lastImageBase64', base64);
+          Analytics.trackEvent('image', 'base64_to_image');
+        };
+        image.onerror = function () {
+          Utils.showToast('Base64格式错误或不是有效的图片', 'error');
+        };
+        image.src = 'data:image/png;base64,' + base64;
+      } catch (e) {
+        Utils.showToast('转换失败: ' + e.message, 'error');
+      }
+    }
+
+    // 下载图片
+    function downloadImage() {
+      const img = document.getElementById('resultImage');
+      const link = document.createElement('a');
+      link.href = img.src;
+      link.download = 'converted_image.png';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      Analytics.trackEvent('image', 'download_image');
+    }
+
+    // 清除Base64输入
+    function clearBase64Input() {
+      document.getElementById('base64Input').value = '';
+      document.getElementById('imageResult').classList.add('hidden');
+    }
+
+    // 拖拽支持
+    const dropZone = document.querySelector('label[for="imageFileInput"]').parentElement;
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      const themeColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim();
+      dropZone.style.borderColor = themeColor;
+      dropZone.style.backgroundColor = themeColor + '20';
+    });
+
+    dropZone.addEventListener('dragleave', (e) => {
+      e.preventDefault();
+      dropZone.style.borderColor = '';
+      dropZone.style.backgroundColor = '';
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.style.borderColor = '';
+      dropZone.style.backgroundColor = '';
+
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const input = document.getElementById('imageFileInput');
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        input.files = dataTransfer.files;
+        handleImageFile({ target: input });
+      }
+    });
+
+    // 恢复上次的Base64（如果有）
+    window.addEventListener('DOMContentLoaded', () => {
+      const lastBase64 = Storage.session.get('lastBase64');
+      if (lastBase64) {
+        document.getElementById('base64Input').value = lastBase64;
+      }
+    });
+  </script>
+</body>
+
+</html>
