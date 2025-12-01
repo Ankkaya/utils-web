@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-theme="light">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,7 +22,7 @@
   <meta name="twitter:url" content="http://utils.ankkaya.top/tools/time.html">
 
   <title>时间戳转换工具 - 在线工具集合</title>
-  
+
   <!-- 阿里妈妈字体（阿里巴巴普惠体） -->
   <link rel="preconnect" href="https://at.alicdn.com" crossorigin>
   <style>
@@ -34,7 +35,7 @@
       font-display: swap;
     }
   </style>
-  
+
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -42,10 +43,96 @@
       darkMode: ['selector', '[data-theme="dark"]'],
     }
   </script>
-  
+
+  <!-- Flatpickr CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
   <!-- 自定义样式 -->
   <link rel="stylesheet" href="../assets/css/main.css">
-  
+
+  <!-- Flatpickr 暗色主题样式 -->
+  <style>
+    .flatpickr-calendar.darkTheme {
+      background: var(--bg-primary, #1f2937);
+      border-color: var(--border-color, #374151);
+      color: var(--text-primary, #f9fafb);
+    }
+
+    .flatpickr-calendar.darkTheme .flatpickr-months {
+      background: var(--bg-primary, #1f2937);
+      border-color: var(--border-color, #374151);
+      color: var(--text-primary, #f9fafb);
+    }
+
+    .flatpickr-calendar.darkTheme .flatpickr-month {
+      color: var(--text-primary, #f9fafb);
+    }
+
+    .flatpickr-calendar.darkTheme .flatpickr-prev-month,
+    .flatpickr-calendar.darkTheme .flatpickr-next-month {
+      color: var(--text-primary, #f9fafb);
+    }
+
+    .flatpickr-calendar.darkTheme .flatpickr-prev-month:hover,
+    .flatpickr-calendar.darkTheme .flatpickr-next-month:hover {
+      color: var(--theme-color, #60a5fa);
+    }
+
+    .flatpickr-calendar.darkTheme .flatpickr-weekdays {
+      background: var(--bg-primary, #1f2937);
+      color: var(--text-secondary, #d1d5db);
+    }
+
+    .flatpickr-calendar.darkTheme .flatpickr-day {
+      color: var(--text-primary, #f9fafb);
+    }
+
+    .flatpickr-calendar.darkTheme .flatpickr-day:hover {
+      background: var(--bg-secondary, #111827);
+      border-color: var(--border-color, #374151);
+    }
+
+    .flatpickr-calendar.darkTheme .flatpickr-day.selected,
+    .flatpickr-calendar.darkTheme .flatpickr-day.startRange,
+    .flatpickr-calendar.darkTheme .flatpickr-day.endRange {
+      background: var(--theme-color, #60a5fa);
+      border-color: var(--theme-color, #60a5fa);
+      color: #fff;
+    }
+
+    .flatpickr-calendar.darkTheme .flatpickr-day.selected:hover,
+    .flatpickr-calendar.darkTheme .flatpickr-day.startRange:hover,
+    .flatpickr-calendar.darkTheme .flatpickr-day.endRange:hover {
+      background: var(--theme-color-hover, #3b82f6);
+      border-color: var(--theme-color-hover, #3b82f6);
+    }
+
+    .flatpickr-calendar.darkTheme .flatpickr-day.today {
+      border-color: var(--theme-color, #60a5fa);
+    }
+
+    .flatpickr-calendar.darkTheme .flatpickr-time {
+      border-top-color: var(--border-color, #374151);
+    }
+
+    .flatpickr-calendar.darkTheme .flatpickr-time input {
+      color: var(--text-primary, #f9fafb);
+      background: var(--bg-secondary, #111827);
+    }
+
+    .flatpickr-calendar.darkTheme .flatpickr-time input:hover {
+      background: var(--bg-primary, #1f2937);
+    }
+
+    .flatpickr-calendar.darkTheme .flatpickr-am-pm {
+      color: var(--text-primary, #f9fafb);
+    }
+
+    .flatpickr-calendar.darkTheme .flatpickr-am-pm:hover {
+      background: var(--bg-secondary, #111827);
+    }
+  </style>
+
   <!-- 结构化数据 -->
   <script type="application/ld+json">
   {
@@ -58,6 +145,7 @@
   }
   </script>
 </head>
+
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
   <!-- 导航栏 -->
   <header class="shadow-sm">
@@ -99,13 +187,10 @@
             </div>
           </div>
           <!-- 主题切换按钮 -->
-          <button 
-            data-theme-toggle
-            class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-            aria-label="切换主题"
-          >
+          <button data-theme-toggle class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            aria-label="切换主题">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+              <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
             </svg>
           </button>
         </div>
@@ -118,169 +203,330 @@
     <h1 class="text-3xl font-bold mb-6 flex items-center">
       <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mr-3">
         <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       </div>
       时间戳转换工具
     </h1>
 
-    <!-- 当前时间显示 -->
-    <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
-      <h2 class="text-xl font-semibold mb-4">当前时间</h2>
-      <div class="space-y-3">
-        <div class="flex items-center justify-between">
-          <span class="text-gray-600 dark:text-gray-400">当前时间：</span>
-          <span class="text-lg font-mono" id="currentTime">--</span>
-        </div>
-        <div class="flex items-center justify-between">
-          <span class="text-gray-600 dark:text-gray-400">10位时间戳：</span>
-          <div class="flex items-center space-x-2">
-            <span class="text-lg font-mono" id="timestamp10">--</span>
-            <button 
-              onclick="copyTimestamp('10')"
-              class="px-3 py-1 theme-bg text-white rounded theme-bg-hover text-sm"
-            >
-              复制
-            </button>
+    <!-- 主要内容区域：左右布局 -->
+    <div class="flex flex-col lg:flex-row gap-6 mb-6">
+      <!-- 左侧：当前时间显示 -->
+      <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 lg:flex-1">
+        <h2 class="text-xl font-semibold mb-4">当前时间</h2>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-gray-600 dark:text-gray-400">当前时间：</span>
+            <span class="text-lg font-mono" id="currentTime">--</span>
           </div>
-        </div>
-        <div class="flex items-center justify-between">
-          <span class="text-gray-600 dark:text-gray-400">13位时间戳：</span>
-          <div class="flex items-center space-x-2">
-            <span class="text-lg font-mono" id="timestamp13">--</span>
-            <button 
-              onclick="copyTimestamp('13')"
-              class="px-3 py-1 theme-bg text-white rounded theme-bg-hover text-sm"
-            >
-              复制
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 时间戳转日期 -->
-    <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
-      <h2 class="text-xl font-semibold mb-4">时间戳转日期时间</h2>
-      <div class="space-y-4">
-        <div>
-          <label class="block text-sm font-medium mb-2">时间戳（支持10位或13位）：</label>
-          <input 
-            type="text" 
-            id="timestampInput"
-            placeholder="请输入时间戳"
-            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 theme-focus-ring focus:border-transparent"
-          />
-        </div>
-        <button 
-          onclick="timestampToDate()"
-          class="w-full px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover transition-colors"
-        >
-          转换
-        </button>
-        <div id="timestampResult" class="mt-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg hidden">
-          <div class="space-y-2">
-            <div><span class="font-medium">日期时间：</span><span id="resultDate" class="font-mono"></span></div>
-            <div><span class="font-medium">10位时间戳：</span><span id="resultTimestamp10" class="font-mono"></span></div>
-            <div><span class="font-medium">13位时间戳：</span><span id="resultTimestamp13" class="font-mono"></span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 日期时间转时间戳 -->
-    <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-      <h2 class="text-xl font-semibold mb-4">日期时间转时间戳</h2>
-      <div class="space-y-4">
-        <div>
-          <label class="block text-sm font-medium mb-2">日期时间：</label>
-          <input 
-            type="datetime-local" 
-            id="dateInput"
-            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 theme-focus-ring focus:border-transparent"
-          />
-        </div>
-        <button 
-          onclick="dateToTimestamp()"
-          class="w-full px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover transition-colors"
-        >
-          转换
-        </button>
-        <div id="dateResult" class="mt-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg hidden">
-          <div class="space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="font-medium">10位时间戳：</span>
-              <div class="flex items-center space-x-2">
-                <span id="resultTimestamp10FromDate" class="font-mono"></span>
-                <button 
-                  onclick="copyResult('resultTimestamp10FromDate')"
-                  class="px-3 py-1 theme-bg text-white rounded theme-bg-hover text-sm"
-                >
-                  复制
-                </button>
-              </div>
+          <div class="flex items-center justify-between">
+            <span class="text-gray-600 dark:text-gray-400">10位时间戳：</span>
+            <div class="flex items-center space-x-2">
+              <span class="text-lg font-mono" id="timestamp10">--</span>
+              <button onclick="copyTimestamp('10')"
+                class="px-3 py-1 theme-bg text-white rounded theme-bg-hover text-sm">
+                复制
+              </button>
             </div>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-gray-600 dark:text-gray-400">13位时间戳：</span>
+            <div class="flex items-center space-x-2">
+              <span class="text-lg font-mono" id="timestamp13">--</span>
+              <button onclick="copyTimestamp('13')"
+                class="px-3 py-1 theme-bg text-white rounded theme-bg-hover text-sm">
+                复制
+              </button>
+            </div>
+          </div>
+          <div class="pt-3 border-t border-gray-200 dark:border-gray-700 space-y-2">
             <div class="flex items-center justify-between">
-              <span class="font-medium">13位时间戳：</span>
-              <div class="flex items-center space-x-2">
-                <span id="resultTimestamp13FromDate" class="font-mono"></span>
-                <button 
-                  onclick="copyResult('resultTimestamp13FromDate')"
-                  class="px-3 py-1 theme-bg text-white rounded theme-bg-hover text-sm"
-                >
-                  复制
-                </button>
-              </div>
+              <span class="text-gray-600 dark:text-gray-400">时区：</span>
+              <span class="text-sm font-mono text-right flex-1 ml-2" id="currentTimezone">--</span>
+            </div>
+            <div>
+              <select id="timezoneSelect"
+                class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 theme-focus-ring focus:border-transparent">
+                <option value="local">本地时区</option>
+                <option value="UTC">UTC (协调世界时)</option>
+                <option value="Asia/Shanghai">Asia/Shanghai (中国标准时间)</option>
+                <option value="America/New_York">America/New_York (美国东部时间)</option>
+                <option value="America/Los_Angeles">America/Los_Angeles (美国西部时间)</option>
+                <option value="Europe/London">Europe/London (英国时间)</option>
+                <option value="Europe/Paris">Europe/Paris (欧洲中部时间)</option>
+                <option value="Asia/Tokyo">Asia/Tokyo (日本标准时间)</option>
+                <option value="Asia/Hong_Kong">Asia/Hong_Kong (香港时间)</option>
+                <option value="Asia/Singapore">Asia/Singapore (新加坡时间)</option>
+                <option value="Australia/Sydney">Australia/Sydney (澳大利亚东部时间)</option>
+              </select>
             </div>
           </div>
         </div>
+      </section>
+
+      <!-- 右侧：转换工具区域（上下布局） -->
+      <div class="lg:flex-1 flex flex-col gap-6">
+        <!-- 时间戳转日期 -->
+        <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <h2 class="text-xl font-semibold mb-4">时间戳转日期时间</h2>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium mb-2">时间戳（支持10位或13位）：</label>
+              <input type="text" id="timestampInput" placeholder="请输入时间戳"
+                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 theme-focus-ring focus:border-transparent" />
+            </div>
+            <button onclick="timestampToDate()"
+              class="w-full px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover transition-colors">
+              转换
+            </button>
+            <div id="timestampResult" class="mt-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg hidden">
+              <div class="space-y-2">
+                <div><span class="font-medium">日期时间：</span><span id="resultDate" class="font-mono"></span></div>
+                <div><span class="font-medium">10位时间戳：</span><span id="resultTimestamp10" class="font-mono"></span>
+                </div>
+                <div><span class="font-medium">13位时间戳：</span><span id="resultTimestamp13" class="font-mono"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 日期时间转时间戳 -->
+        <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <h2 class="text-xl font-semibold mb-4">日期时间转时间戳</h2>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium mb-2">日期时间：</label>
+              <input type="text" id="dateInput" placeholder="请选择日期时间"
+                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 theme-focus-ring focus:border-transparent" />
+            </div>
+            <button onclick="dateToTimestamp()"
+              class="w-full px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover transition-colors">
+              转换
+            </button>
+            <div id="dateResult" class="mt-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg hidden">
+              <div class="space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="font-medium">10位时间戳：</span>
+                  <div class="flex items-center space-x-2">
+                    <span id="resultTimestamp10FromDate" class="font-mono"></span>
+                    <button onclick="copyResult('resultTimestamp10FromDate')"
+                      class="px-3 py-1 theme-bg text-white rounded theme-bg-hover text-sm">
+                      复制
+                    </button>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="font-medium">13位时间戳：</span>
+                  <div class="flex items-center space-x-2">
+                    <span id="resultTimestamp13FromDate" class="font-mono"></span>
+                    <button onclick="copyResult('resultTimestamp13FromDate')"
+                      class="px-3 py-1 theme-bg text-white rounded theme-bg-hover text-sm">
+                      复制
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
-    </section>
+    </div>
   </main>
 
   <!-- 页脚 -->
-  <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
-    <div class="container mx-auto px-4 py-6">
-      <div class="text-center text-gray-600 dark:text-gray-400">
-        <p>&copy; 2024 在线工具集合. 保留所有权利.</p>
-      </div>
-    </div>
-  </footer>
+  <div id="footer-container"></div>
+
+  <!-- Flatpickr JS -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script>
 
   <!-- 脚本 -->
   <script src="../assets/js/storage.js"></script>
   <script src="../assets/js/theme.js"></script>
   <script src="../assets/js/common.js"></script>
   <script src="../assets/js/analytics.js"></script>
-  
+  <script src="../assets/js/footer.js"></script>
+
   <script>
+    // 获取当前时区
+    let currentTimezone = Storage.local.get('selectedTimezone', 'local');
+
+    // 格式化时区名称（简洁版）
+    function formatTimezoneName(timezone) {
+      if (timezone === 'local') {
+        try {
+          const tzName = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          const offset = -new Date().getTimezoneOffset() / 60;
+          const sign = offset >= 0 ? '+' : '';
+          return `${tzName} (UTC${sign}${offset})`;
+        } catch (e) {
+          return '本地时区';
+        }
+      }
+
+      // 获取时区偏移量
+      const offset = getTimezoneOffset(timezone);
+      const sign = offset >= 0 ? '+' : '';
+      const offsetStr = `UTC${sign}${offset}`;
+
+      const timezoneShortNames = {
+        'UTC': `UTC`,
+        'Asia/Shanghai': `中国标准时间 (${offsetStr})`,
+        'America/New_York': `美国东部时间 (${offsetStr})`,
+        'America/Los_Angeles': `美国西部时间 (${offsetStr})`,
+        'Europe/London': `英国时间 (${offsetStr})`,
+        'Europe/Paris': `欧洲中部时间 (${offsetStr})`,
+        'Asia/Tokyo': `日本标准时间 (${offsetStr})`,
+        'Asia/Hong_Kong': `香港时间 (${offsetStr})`,
+        'Asia/Singapore': `新加坡时间 (${offsetStr})`,
+        'Australia/Sydney': `澳大利亚东部时间 (${offsetStr})`
+      };
+      return timezoneShortNames[timezone] || `${timezone} (${offsetStr})`;
+    }
+
+    // 获取时区偏移量（小时，考虑夏令时）
+    function getTimezoneOffset(timezone) {
+      if (timezone === 'local') {
+        return -new Date().getTimezoneOffset() / 60;
+      }
+      if (timezone === 'UTC') {
+        return 0;
+      }
+      try {
+        const now = new Date();
+        // 获取UTC时间的各个部分
+        const utcYear = now.getUTCFullYear();
+        const utcMonth = now.getUTCMonth();
+        const utcDate = now.getUTCDate();
+        const utcHours = now.getUTCHours();
+        const utcMinutes = now.getUTCMinutes();
+        const utcSeconds = now.getUTCSeconds();
+
+        // 获取指定时区的时间字符串
+        const tzStr = now.toLocaleString('en-US', {
+          timeZone: timezone,
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false
+        });
+
+        // 解析时区时间字符串 "MM/DD/YYYY, HH:MM:SS"
+        const parts = tzStr.match(/(\d+)\/(\d+)\/(\d+),\s+(\d+):(\d+):(\d+)/);
+        if (parts) {
+          const tzMonth = parseInt(parts[1]) - 1; // 月份从0开始
+          const tzDate = parseInt(parts[2]);
+          const tzYear = parseInt(parts[3]);
+          const tzHours = parseInt(parts[4]);
+          const tzMinutes = parseInt(parts[5]);
+          const tzSeconds = parseInt(parts[6]);
+
+          // 创建UTC和时区的Date对象
+          const utcTime = Date.UTC(utcYear, utcMonth, utcDate, utcHours, utcMinutes, utcSeconds);
+          const tzTime = Date.UTC(tzYear, tzMonth, tzDate, tzHours, tzMinutes, tzSeconds);
+
+          // 计算小时差值（考虑夏令时）
+          const diffMs = tzTime - utcTime;
+          return Math.round(diffMs / (1000 * 60 * 60));
+        }
+      } catch (e) {
+        // 如果计算失败，返回已知的时区偏移量
+      }
+
+      // 备用：返回已知的时区偏移量（不考虑夏令时）
+      const knownOffsets = {
+        'Asia/Shanghai': 8,
+        'Asia/Hong_Kong': 8,
+        'Asia/Singapore': 8,
+        'Asia/Tokyo': 9,
+        'America/New_York': -5,
+        'America/Los_Angeles': -8,
+        'Europe/London': 0,
+        'Europe/Paris': 1,
+        'Australia/Sydney': 10
+      };
+      return knownOffsets[timezone] || 0;
+    }
+
     // 更新当前时间
     function updateCurrentTime() {
       const now = new Date();
-      const timeStr = now.toLocaleString('zh-CN', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-      });
-      
+      let timeStr;
+      let timezoneDisplay;
+
+      if (currentTimezone === 'local') {
+        timeStr = now.toLocaleString('zh-CN', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false
+        });
+        timezoneDisplay = formatTimezoneName('local');
+      } else if (currentTimezone === 'UTC') {
+        timeStr = now.toLocaleString('zh-CN', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+          timeZone: 'UTC'
+        });
+        timezoneDisplay = formatTimezoneName('UTC');
+      } else {
+        try {
+          timeStr = now.toLocaleString('zh-CN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false,
+            timeZone: currentTimezone
+          });
+          timezoneDisplay = formatTimezoneName(currentTimezone);
+        } catch (e) {
+          // 如果时区无效，回退到本地时区
+          timeStr = now.toLocaleString('zh-CN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+          });
+          timezoneDisplay = formatTimezoneName('local');
+          currentTimezone = 'local';
+          document.getElementById('timezoneSelect').value = 'local';
+        }
+      }
+
       document.getElementById('currentTime').textContent = timeStr;
-      
-      // 10位时间戳（秒）
+      document.getElementById('currentTimezone').textContent = timezoneDisplay;
+
+      // 10位时间戳（秒）- 时间戳不受时区影响，始终是UTC
       const timestamp10 = Math.floor(now.getTime() / 1000);
       document.getElementById('timestamp10').textContent = timestamp10;
-      
-      // 13位时间戳（毫秒）
+
+      // 13位时间戳（毫秒）- 时间戳不受时区影响，始终是UTC
       const timestamp13 = now.getTime();
       document.getElementById('timestamp13').textContent = timestamp13;
     }
 
     // 复制时间戳
     function copyTimestamp(type) {
-      const timestamp = type === '10' 
+      const timestamp = type === '10'
         ? document.getElementById('timestamp10').textContent
         : document.getElementById('timestamp13').textContent;
       Utils.copyToClipboard(timestamp).then(() => {
@@ -347,7 +593,13 @@
         return;
       }
 
-      const date = new Date(input);
+      // Flatpickr 返回的格式是 "YYYY-MM-DD HH:mm:ss"，需要转换为 Date 对象
+      const date = new Date(input.replace(' ', 'T'));
+      if (isNaN(date.getTime())) {
+        Utils.showToast('日期时间格式错误', 'error');
+        return;
+      }
+
       const timestamp10 = Math.floor(date.getTime() / 1000);
       const timestamp13 = date.getTime();
 
@@ -364,9 +616,72 @@
       });
     }
 
+    // 初始化 Flatpickr
+    let flatpickrInstance;
+    function initFlatpickr() {
+      const dateInput = document.getElementById('dateInput');
+
+      flatpickrInstance = flatpickr(dateInput, {
+        enableTime: true,
+        dateFormat: 'Y-m-d H:i:S',
+        time_24hr: true,
+        locale: 'zh',
+        defaultDate: new Date(),
+        onReady: function (selectedDates, dateStr, instance) {
+          // 初始化时应用主题
+          updateFlatpickrTheme();
+        },
+        onOpen: function (selectedDates, dateStr, instance) {
+          // 打开时更新主题（防止主题切换后日历已打开的情况）
+          updateFlatpickrTheme();
+        }
+      });
+    }
+
+    // 监听主题切换，更新 Flatpickr 主题
+    function updateFlatpickrTheme() {
+      if (flatpickrInstance) {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        const calendar = flatpickrInstance.calendarContainer;
+        if (calendar) {
+          if (isDark) {
+            calendar.classList.add('darkTheme');
+          } else {
+            calendar.classList.remove('darkTheme');
+          }
+        }
+      }
+    }
+
+    // 时区切换处理
+    function handleTimezoneChange() {
+      const select = document.getElementById('timezoneSelect');
+      currentTimezone = select.value;
+      Storage.local.set('selectedTimezone', currentTimezone);
+      updateCurrentTime();
+    }
+
     // 初始化
+    // 恢复保存的时区设置
+    const savedTimezone = Storage.local.get('selectedTimezone', 'local');
+    currentTimezone = savedTimezone;
+    const timezoneSelect = document.getElementById('timezoneSelect');
+    if (timezoneSelect) {
+      timezoneSelect.value = currentTimezone;
+      timezoneSelect.addEventListener('change', handleTimezoneChange);
+    }
+
     updateCurrentTime();
     setInterval(updateCurrentTime, 1000);
+    initFlatpickr();
+
+    // 监听主题切换事件
+    const themeToggle = document.querySelector('[data-theme-toggle]');
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        setTimeout(updateFlatpickrTheme, 100);
+      });
+    }
 
     // 回车键支持
     document.getElementById('timestampInput').addEventListener('keypress', (e) => {
@@ -374,5 +689,5 @@
     });
   </script>
 </body>
-</html>
 
+</html>
