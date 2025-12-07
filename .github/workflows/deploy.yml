@@ -17,14 +17,63 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            # 1. 首先添加GitHub.com的主机密钥（为了git pull）
+            set -e  # 遇到错误立即退出
+            
+            # 1. 添加GitHub.com的主机密钥（为了git pull）
             mkdir -p ~/.ssh
-            ssh-keyscan github.com >> ~/.ssh/known_hosts
-
-            # 4. 切换到目标目录并拉取最新代码
-            cd /var/www/utils-web
-
-            # 使用token进行git操作
-            git config --global url."https://x-access-token:${{ secrets.REPO_TOKEN }}@github.com".insteadOf "https://github.com"
-            git pull origin master
+            ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null || true
+            
+            # 2. 定义部署目录
+            DEPLOY_DIR="/var/www/utils-web"
+            BACKUP_DIR="/var/www/utils-web-backup"
+            TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+            
+            # 3. 检查部署目录是否存在
+            if [ ! -d "$DEPLOY_DIR" ]; then
+              echo "错误: 部署目录 $DEPLOY_DIR 不存在"
+              exit 1
+            fi
+            
+            # 4. 切换到目标目录
+            cd "$DEPLOY_DIR"
+            
+            # 5. 备份当前版本（如果存在）
+            if [ -d "$DEPLOY_DIR" ] && [ "$(ls -A $DEPLOY_DIR)" ]; then
+              echo "正在备份当前版本..."
+              sudo mkdir -p "$BACKUP_DIR"
+              sudo cp -r "$DEPLOY_DIR" "$BACKUP_DIR/utils-web_$TIMESTAMP" || true
+              echo "备份完成: $BACKUP_DIR/utils-web_$TIMESTAMP"
+            fi
+            
+            # 6. 拉取最新代码（使用SSH方式，公开仓库无需token）
+            echo "正在拉取最新代码..."
+            git fetch origin master
+            git reset --hard origin/master
+            git clean -fd
+            
+            # 7. 验证nginx配置
+            echo "正在验证nginx配置..."
+            if sudo nginx -t; then
+              echo "nginx配置验证通过"
+            else
+              echo "错误: nginx配置验证失败，正在回滚..."
+              # 回滚到备份版本
+              if [ -d "$BACKUP_DIR/utils-web_$TIMESTAMP" ]; then
+                sudo cp -r "$BACKUP_DIR/utils-web_$TIMESTAMP"/* "$DEPLOY_DIR"/
+                echo "已回滚到备份版本"
+              fi
+              exit 1
+            fi
+            
+            # 8. 重启nginx服务
+            echo "正在重启nginx..."
             sudo systemctl restart nginx
+            
+            # 9. 验证nginx服务状态
+            sleep 2
+            if sudo systemctl is-active --quiet nginx; then
+              echo "✅ 部署成功！nginx服务运行正常"
+            else
+              echo "⚠️  警告: nginx服务可能未正常启动，请检查日志"
+              sudo systemctl status nginx || true
+            fi
