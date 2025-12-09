@@ -77,3 +77,4 @@ jobs:
               echo "⚠️  警告: nginx服务可能未正常启动，请检查日志"
               sudo systemctl status nginx || true
             fi
+            

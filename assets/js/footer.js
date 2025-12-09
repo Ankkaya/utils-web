@@ -25,6 +25,12 @@
       return response.text();
     })
     .then(html => {
+      // 根据当前页面路径修正图片路径
+      // 如果在 tools 目录下，需要将 assets/ 改为 ../assets/
+      if (!isRootPage) {
+        // 使用正则表达式替换所有相对路径的 assets/ 为 ../assets/
+        html = html.replace(/src="assets\//g, 'src="../assets/');
+      }
       footerContainer.innerHTML = html;
     })
     .catch(error => {
