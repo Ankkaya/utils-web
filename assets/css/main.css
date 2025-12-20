@@ -69,6 +69,56 @@ svg.theme-color-hover:hover {
   box-shadow: 0 0 0 2px var(--theme-color) !important;
 }
 
+/* 主题色边框悬停 */
+.theme-border-hover:hover {
+  border-color: var(--theme-color) !important;
+}
+
+/* 父元素 hover 时子元素边框主题色 */
+.group:hover .theme-border-hover-child {
+  border-color: var(--theme-color) !important;
+}
+
+/* 搜索模态框样式 */
+#searchModal {
+  animation: fadeIn 0.2s ease-out;
+}
+
+#searchModal .bg-white,
+#searchModal .dark\\:bg-gray-800 {
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* 搜索输入框焦点样式 */
+#searchInput:focus {
+  outline: none;
+}
+
+#searchInputWrapper:focus-within {
+  border-color: var(--theme-color) !important;
+  box-shadow: 0 0 0 1px var(--theme-color);
+}
+
 /* 平滑过渡 */
 * {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;

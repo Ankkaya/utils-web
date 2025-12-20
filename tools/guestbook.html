@@ -1,61 +1,52 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-theme="light">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="留言板，留下您的建议、意见或反馈" />
-    <meta name="keywords" content="留言板,反馈,建议,意见" />
-    <link
-      rel="canonical"
-      href="http://utils.ankkaya.top/tools/guestbook.html"
-    />
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="留言板 - 在线工具集合" />
-    <meta property="og:description" content="留下您的建议、意见或反馈" />
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:url"
-      content="http://utils.ankkaya.top/tools/guestbook.html"
-    />
-    <meta property="og:site_name" content="在线工具集合" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="留言板，留下您的建议、意见或反馈" />
+  <meta name="keywords" content="留言板,反馈,建议,意见" />
+  <link rel="canonical" href="http://utils.ankkaya.top/tools/guestbook.html" />
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="留言板 - 在线工具集合" />
-    <meta name="twitter:description" content="留下您的建议、意见或反馈" />
-    <meta
-      name="twitter:url"
-      content="http://utils.ankkaya.top/tools/guestbook.html"
-    />
+  <!-- Open Graph -->
+  <meta property="og:title" content="留言板 - 在线工具集合" />
+  <meta property="og:description" content="留下您的建议、意见或反馈" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="http://utils.ankkaya.top/tools/guestbook.html" />
+  <meta property="og:site_name" content="在线工具集合" />
 
-    <title>留言板 - 在线工具集合</title>
-    <!-- 阿里妈妈字体（阿里巴巴普惠体） -->
-    <link rel="preconnect" href="https://at.alicdn.com" crossorigin />
-    <style>
-      @font-face {
-        font-family: "Alibaba PuHuiTi";
-        src: url("https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot");
-        src: url("https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot?#iefix")
-          format("embedded-opentype");
-        font-weight: normal;
-        font-style: normal;
-        font-display: swap;
-      }
-    </style>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        darkMode: ["selector", '[data-theme="dark"]'],
-      };
-    </script>
-    <link rel="stylesheet" href="../assets/css/main.css" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="留言板 - 在线工具集合" />
+  <meta name="twitter:description" content="留下您的建议、意见或反馈" />
+  <meta name="twitter:url" content="http://utils.ankkaya.top/tools/guestbook.html" />
 
-    <!-- 导航栏工具栏组件 -->
-    <script src="../assets/js/navbar-toolbar.js"></script>
+  <title>留言板 - 在线工具集合</title>
+  <!-- 阿里妈妈字体（阿里巴巴普惠体） -->
+  <link rel="preconnect" href="https://at.alicdn.com" crossorigin />
+  <style>
+    @font-face {
+      font-family: "Alibaba PuHuiTi";
+      src: url("https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot");
+      src: url("https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot?#iefix") format("embedded-opentype");
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ["selector", '[data-theme="dark"]'],
+    };
+  </script>
+  <link rel="stylesheet" href="../assets/css/main.css" />
 
-    <!-- 结构化数据 -->
-    <script type="application/ld+json">
+  <!-- 导航栏工具栏组件 -->
+  <script src="../assets/js/navbar-toolbar.js"></script>
+
+  <!-- 结构化数据 -->
+  <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "WebApplication",
@@ -65,440 +56,369 @@
         "description": "留言板，留下您的建议、意见或反馈"
       }
     </script>
-  </head>
+</head>
 
-  <body
-    class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col"
-  >
-    <header class="shadow-sm">
-      <nav class="container mx-auto px-4 py-4">
-        <div class="flex items-center justify-between">
-          <a href="../index.html" class="text-xl font-bold theme-color"
-            >在线工具集合</a
-          >
-          <navbar-toolbar page="tool"></navbar-toolbar>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+  <!-- 导航栏 -->
+  <navbar-toolbar page="tool"></navbar-toolbar>
+
+  <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl">
+    <h1 class="text-3xl font-bold mb-6 flex items-center">
+      <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-3">
+        <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+        </svg>
+      </div>
+      留言板
+    </h1>
+
+    <!-- 留言表单 -->
+    <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
+      <h2 class="text-xl font-semibold mb-4">留下您的留言</h2>
+      <form id="guestbookForm" onsubmit="submitMessage(event)">
+        <div class="mb-4">
+          <label for="name" class="block text-sm font-medium mb-2">姓名/昵称 <span class="text-red-500">*</span></label>
+          <input type="text" id="name" name="name" required
+            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 theme-focus-ring"
+            placeholder="请输入您的姓名或昵称" maxlength="50" />
         </div>
-      </nav>
-    </header>
-
-    <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl">
-      <h1 class="text-3xl font-bold mb-6 flex items-center">
-        <div
-          class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-3"
-        >
-          <svg
-            class="w-6 h-6 text-blue-600 dark:text-blue-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-            />
-          </svg>
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium mb-2">邮箱（可选）</label>
+          <input type="email" id="email" name="email"
+            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 theme-focus-ring"
+            placeholder="请输入您的邮箱" maxlength="100" />
         </div>
-        留言板
-      </h1>
-
-      <!-- 留言表单 -->
-      <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
-        <h2 class="text-xl font-semibold mb-4">留下您的留言</h2>
-        <form id="guestbookForm" onsubmit="submitMessage(event)">
-          <div class="mb-4">
-            <label for="name" class="block text-sm font-medium mb-2"
-              >姓名/昵称 <span class="text-red-500">*</span></label
-            >
-            <input
-              type="text"
-              id="name"
-              name="name"
-              required
-              class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 theme-focus-ring"
-              placeholder="请输入您的姓名或昵称"
-              maxlength="50"
-            />
+        <div class="mb-4">
+          <label for="message" class="block text-sm font-medium mb-2">留言内容 <span class="text-red-500">*</span></label>
+          <textarea id="message" name="message" required rows="5"
+            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 theme-focus-ring"
+            placeholder="请输入您的留言内容..." maxlength="1000"></textarea>
+          <div class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            <span id="charCount">0</span> / 1000
           </div>
-          <div class="mb-4">
-            <label for="email" class="block text-sm font-medium mb-2"
-              >邮箱（可选）</label
-            >
-            <input
-              type="email"
-              id="email"
-              name="email"
-              class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 theme-focus-ring"
-              placeholder="请输入您的邮箱"
-              maxlength="100"
-            />
-          </div>
-          <div class="mb-4">
-            <label for="message" class="block text-sm font-medium mb-2"
-              >留言内容 <span class="text-red-500">*</span></label
-            >
-            <textarea
-              id="message"
-              name="message"
-              required
-              rows="5"
-              class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 theme-focus-ring"
-              placeholder="请输入您的留言内容..."
-              maxlength="1000"
-            ></textarea>
-            <div class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-              <span id="charCount">0</span> / 1000
-            </div>
-          </div>
-          <button
-            type="submit"
-            class="w-full px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover font-medium"
-          >
-            提交留言
-          </button>
-        </form>
-      </section>
-      <!-- 留言列表 -->
-      <section
-        id="guestbookListSection"
-        class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8"
-      >
-        <h2 class="text-xl font-semibold mb-4">留言列表</h2>
-        <div id="guestbookList" class="space-y-4">
-          <div class="text-gray-500 dark:text-gray-400">正在加载留言…</div>
         </div>
-        <div
-          id="guestbookPagination"
-          class="mt-4 flex items-center justify-between"
-        >
-          <button
-            id="gbPrev"
-            class="px-3 py-1 rounded border bg-gray-100 dark:bg-gray-700"
-            disabled
-          >
-            上一页
-          </button>
-          <div class="flex items-center space-x-4">
-            <div
-              id="gbPageInfo"
-              class="text-sm text-gray-600 dark:text-gray-300"
-            >
-              第 1 页
-            </div>
-            <div class="flex items-center space-x-2">
-              <label
-                for="gbPerPage"
-                class="text-sm text-gray-600 dark:text-gray-300"
-                >每页</label
-              >
-              <select
-                id="gbPerPage"
-                class="px-2 py-1 text-sm border rounded bg-white dark:bg-gray-700"
-              >
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-              </select>
-            </div>
+        <button type="submit" class="w-full px-4 py-2 theme-bg text-white rounded-lg theme-bg-hover font-medium">
+          提交留言
+        </button>
+      </form>
+    </section>
+    <!-- 留言列表 -->
+    <section id="guestbookListSection" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
+      <h2 class="text-xl font-semibold mb-4">留言列表</h2>
+      <div id="guestbookList" class="space-y-4">
+        <div class="text-gray-500 dark:text-gray-400">正在加载留言…</div>
+      </div>
+      <div id="guestbookPagination" class="mt-4 flex items-center justify-between">
+        <button id="gbPrev" class="px-3 py-1 rounded border bg-gray-100 dark:bg-gray-700" disabled>
+          上一页
+        </button>
+        <div class="flex items-center space-x-4">
+          <div id="gbPageInfo" class="text-sm text-gray-600 dark:text-gray-300">
+            第 1 页
           </div>
-          <button
-            id="gbNext"
-            class="px-3 py-1 rounded border bg-gray-100 dark:bg-gray-700"
-            disabled
-          >
-            下一页
-          </button>
+          <div class="flex items-center space-x-2">
+            <label for="gbPerPage" class="text-sm text-gray-600 dark:text-gray-300">每页</label>
+            <select id="gbPerPage" class="px-2 py-1 text-sm border rounded bg-white dark:bg-gray-700">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+            </select>
+          </div>
         </div>
-      </section>
-    </main>
+        <button id="gbNext" class="px-3 py-1 rounded border bg-gray-100 dark:bg-gray-700" disabled>
+          下一页
+        </button>
+      </div>
+    </section>
+  </main>
 
-    <!-- 页脚 -->
-    <div id="footer-container"></div>
+  <!-- 页脚 -->
+  <div id="footer-container"></div>
 
-    <script src="../assets/js/storage.js"></script>
-    <script src="../assets/js/theme.js"></script>
-    <script src="../assets/js/common.js"></script>
-    <script src="../assets/js/analytics.js"></script>
-    <script src="../assets/js/footer.js"></script>
-    <script>
-      // 提交留言
-      async function submitMessage(event) {
-        event.preventDefault();
-        const form = event.target;
-        const name = form.name.value.trim();
-        const email = form.email.value.trim();
-        const message = form.message.value.trim();
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/theme.js"></script>
+  <script src="../assets/js/common.js"></script>
+  <script src="../assets/js/analytics.js"></script>
+  <script src="../assets/js/footer.js"></script>
+  <script>
+    // 提交留言
+    async function submitMessage(event) {
+      event.preventDefault();
+      const form = event.target;
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const message = form.message.value.trim();
 
-        if (!name || !message) {
-          Utils.showToast("请填写姓名和留言内容", "error");
-          return;
-        }
-
-        if (message.length > 1000) {
-          Utils.showToast("留言内容不能超过1000个字符", "error");
-          return;
-        }
-
-        // 构建留言内容（包含姓名和邮箱信息）
-        const content = `**姓名：** ${name}${
-          email ? `\n**邮箱：** ${email}` : ""
-        }\n\n**留言内容：**\n${message}`;
-
-        // 调用 Cloudflare Worker API
-        try {
-          const response = await fetch("https://comment.staryou.workers.dev", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              content: content,
-            }),
-          });
-
-          if (!response.ok) {
-            throw new Error("API 请求失败");
-          }
-
-          const result = await response.json();
-
-          if (result.success) {
-            // API 调用成功
-            form.reset();
-            document.getElementById("charCount").textContent = "0";
-            Utils.showToast("留言提交成功！等待审核后显示");
-
-            // 跟踪事件
-            if (typeof Analytics !== "undefined") {
-              Analytics.trackEvent("Guestbook", "Submit", "Message");
-            }
-          } else {
-            throw new Error(result.error || "提交失败");
-          }
-        } catch (error) {
-          console.error("提交留言失败:", error);
-          Utils.showToast("留言提交失败，请稍后重试", "error");
-        }
+      if (!name || !message) {
+        Utils.showToast("请填写姓名和留言内容", "error");
+        return;
       }
 
-      // 字符计数
-      document
-        .getElementById("message")
-        .addEventListener("input", function (e) {
-          const count = e.target.value.length;
-          document.getElementById("charCount").textContent = count;
+      if (message.length > 1000) {
+        Utils.showToast("留言内容不能超过1000个字符", "error");
+        return;
+      }
+
+      // 构建留言内容（包含姓名和邮箱信息）
+      const content = `**姓名：** ${name}${email ? `\n**邮箱：** ${email}` : ""
+        }\n\n**留言内容：**\n${message}`;
+
+      // 调用 Cloudflare Worker API
+      try {
+        const response = await fetch("https://comment.staryou.workers.dev", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            content: content,
+          }),
         });
 
-      // 从 GitHub Issues 加载留言（过滤 label=approved），支持分页
-      // 配置：请替换下面的 GITHUB_OWNER / GITHUB_REPO 为目标仓库
-      const GITHUB_OWNER = "Ankkaya";
-      const GITHUB_REPO = "utils-web";
-      let ISSUES_PER_PAGE = 5;
-      let gbPage = 1;
-      let gbHasNext = false;
-      let gbHasPrev = false;
+        if (!response.ok) {
+          throw new Error("API 请求失败");
+        }
 
-      async function loadGuestbookIssues(page = 1) {
-        const listEl = document.getElementById("guestbookList");
-        const pageInfo = document.getElementById("gbPageInfo");
-        const prevBtn = document.getElementById("gbPrev");
-        const nextBtn = document.getElementById("gbNext");
+        const result = await response.json();
+
+        if (result.success) {
+          // API 调用成功
+          form.reset();
+          document.getElementById("charCount").textContent = "0";
+          Utils.showToast("留言提交成功！等待审核后显示");
+
+          // 跟踪事件
+          if (typeof Analytics !== "undefined") {
+            Analytics.trackEvent("Guestbook", "Submit", "Message");
+          }
+        } else {
+          throw new Error(result.error || "提交失败");
+        }
+      } catch (error) {
+        console.error("提交留言失败:", error);
+        Utils.showToast("留言提交失败，请稍后重试", "error");
+      }
+    }
+
+    // 字符计数
+    document
+      .getElementById("message")
+      .addEventListener("input", function (e) {
+        const count = e.target.value.length;
+        document.getElementById("charCount").textContent = count;
+      });
+
+    // 从 GitHub Issues 加载留言（过滤 label=approved），支持分页
+    // 配置：请替换下面的 GITHUB_OWNER / GITHUB_REPO 为目标仓库
+    const GITHUB_OWNER = "Ankkaya";
+    const GITHUB_REPO = "utils-web";
+    let ISSUES_PER_PAGE = 5;
+    let gbPage = 1;
+    let gbHasNext = false;
+    let gbHasPrev = false;
+
+    async function loadGuestbookIssues(page = 1) {
+      const listEl = document.getElementById("guestbookList");
+      const pageInfo = document.getElementById("gbPageInfo");
+      const prevBtn = document.getElementById("gbPrev");
+      const nextBtn = document.getElementById("gbNext");
+      listEl.innerHTML =
+        '<div class="text-gray-500 dark:text-gray-400">正在加载留言…</div>';
+      pageInfo.textContent = `第 ${page} 页`;
+
+      if (
+        !GITHUB_OWNER ||
+        GITHUB_OWNER === "OWNER_HERE" ||
+        !GITHUB_REPO ||
+        GITHUB_REPO === "REPO_HERE"
+      ) {
         listEl.innerHTML =
-          '<div class="text-gray-500 dark:text-gray-400">正在加载留言…</div>';
-        pageInfo.textContent = `第 ${page} 页`;
+          '<div class="text-yellow-600 dark:text-yellow-400">请在代码中配置 GITHUB_OWNER 和 GITHUB_REPO，以加载留言。</div>';
+        return;
+      }
 
-        if (
-          !GITHUB_OWNER ||
-          GITHUB_OWNER === "OWNER_HERE" ||
-          !GITHUB_REPO ||
-          GITHUB_REPO === "REPO_HERE"
-        ) {
-          listEl.innerHTML =
-            '<div class="text-yellow-600 dark:text-yellow-400">请在代码中配置 GITHUB_OWNER 和 GITHUB_REPO，以加载留言。</div>';
+      const token = localStorage.getItem("GITHUB_TOKEN") || "";
+      const headers = { Accept: "application/vnd.github.v3+json" };
+      if (token) headers["Authorization"] = `token ${token}`;
+
+      const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/issues?labels=approved&state=open&per_page=${ISSUES_PER_PAGE}&page=${page}`;
+
+      try {
+        const res = await fetch(url, { headers });
+        if (!res.ok) {
+          listEl.innerHTML = `<div class="text-red-500">加载留言失败：${res.status} ${res.statusText}</div>`;
           return;
         }
 
-        const token = localStorage.getItem("GITHUB_TOKEN") || "";
-        const headers = { Accept: "application/vnd.github.v3+json" };
-        if (token) headers["Authorization"] = `token ${token}`;
+        const link = res.headers.get("Link") || "";
+        const linkMap = parseLinkHeader(link);
+        gbHasNext = !!linkMap.next;
+        gbHasPrev = !!linkMap.prev;
+        prevBtn.disabled = !gbHasPrev;
+        nextBtn.disabled = !gbHasNext;
 
-        const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/issues?labels=approved&state=open&per_page=${ISSUES_PER_PAGE}&page=${page}`;
-
-        try {
-          const res = await fetch(url, { headers });
-          if (!res.ok) {
-            listEl.innerHTML = `<div class="text-red-500">加载留言失败：${res.status} ${res.statusText}</div>`;
-            return;
-          }
-
-          const link = res.headers.get("Link") || "";
-          const linkMap = parseLinkHeader(link);
-          gbHasNext = !!linkMap.next;
-          gbHasPrev = !!linkMap.prev;
-          prevBtn.disabled = !gbHasPrev;
-          nextBtn.disabled = !gbHasNext;
-
-          // 计算总数：若存在 last 链接，请求最后一页以获得精确总数
-          let totalCount = null;
-          let totalPages = null;
-          if (linkMap.last) {
-            try {
-              const lastUrl = new URL(linkMap.last);
-              totalPages = Number(lastUrl.searchParams.get("page")) || null;
-              if (totalPages) {
-                const lastRes = await fetch(linkMap.last, { headers });
-                if (lastRes.ok) {
-                  const lastItems = await lastRes.json();
-                  const lastCount = Array.isArray(lastItems)
-                    ? lastItems.length
-                    : 0;
-                  totalCount = (totalPages - 1) * ISSUES_PER_PAGE + lastCount;
-                }
+        // 计算总数：若存在 last 链接，请求最后一页以获得精确总数
+        let totalCount = null;
+        let totalPages = null;
+        if (linkMap.last) {
+          try {
+            const lastUrl = new URL(linkMap.last);
+            totalPages = Number(lastUrl.searchParams.get("page")) || null;
+            if (totalPages) {
+              const lastRes = await fetch(linkMap.last, { headers });
+              if (lastRes.ok) {
+                const lastItems = await lastRes.json();
+                const lastCount = Array.isArray(lastItems)
+                  ? lastItems.length
+                  : 0;
+                totalCount = (totalPages - 1) * ISSUES_PER_PAGE + lastCount;
               }
-            } catch (err) {
-              // ignore last-page calculation errors
-              console.warn("计算总数时出错", err);
             }
+          } catch (err) {
+            // ignore last-page calculation errors
+            console.warn("计算总数时出错", err);
           }
+        }
 
-          const issues = await res.json();
-          if (!Array.isArray(issues) || issues.length === 0) {
-            listEl.innerHTML =
-              '<div class="text-gray-500 dark:text-gray-400">暂无留言</div>';
-            updatePaginationInfo(page, totalCount, totalPages);
-            return;
-          }
+        const issues = await res.json();
+        if (!Array.isArray(issues) || issues.length === 0) {
+          listEl.innerHTML =
+            '<div class="text-gray-500 dark:text-gray-400">暂无留言</div>';
+          updatePaginationInfo(page, totalCount, totalPages);
+          return;
+        }
 
-          // 若无 Link 且只一页，则 totalCount 可确定
-          if (!link && !totalCount) {
-            totalCount = issues.length;
-            totalPages = 1;
-          }
+        // 若无 Link 且只一页，则 totalCount 可确定
+        if (!link && !totalCount) {
+          totalCount = issues.length;
+          totalPages = 1;
+        }
 
-          listEl.innerHTML = "";
-          for (const issue of issues) {
-            const title = markdownToHtml(issue.title || "");
-            const body = markdownToHtml(issue.body || "");
-            const created = new Date(issue.created_at).toLocaleString();
-            const item = document.createElement("div");
-            item.className =
-              "border border-gray-200 dark:border-gray-700 rounded p-4";
-            item.innerHTML = `
+        listEl.innerHTML = "";
+        for (const issue of issues) {
+          const title = markdownToHtml(issue.title || "");
+          const body = markdownToHtml(issue.body || "");
+          const created = new Date(issue.created_at).toLocaleString();
+          const item = document.createElement("div");
+          item.className =
+            "border border-gray-200 dark:border-gray-700 rounded p-4";
+          item.innerHTML = `
             <div class="flex items-center justify-between mb-2">
               <div class="font-medium">${title}</div>
               <div class="text-sm text-gray-500 dark:text-gray-400">${created}</div>
             </div>
             <div class="text-sm text-gray-700 dark:text-gray-300 mb-2">${body}</div>`;
-            listEl.appendChild(item);
-          }
-
-          updatePaginationInfo(page, totalCount, totalPages);
-        } catch (e) {
-          console.error("加载留言错误", e);
-          listEl.innerHTML =
-            '<div class="text-red-500">加载留言时发生错误</div>';
+          listEl.appendChild(item);
         }
+
+        updatePaginationInfo(page, totalCount, totalPages);
+      } catch (e) {
+        console.error("加载留言错误", e);
+        listEl.innerHTML =
+          '<div class="text-red-500">加载留言时发生错误</div>';
       }
+    }
 
-      document.getElementById("gbPrev").addEventListener("click", () => {
-        if (gbHasPrev) {
-          gbPage = Math.max(1, gbPage - 1);
-          loadGuestbookIssues(gbPage);
-        }
+    document.getElementById("gbPrev").addEventListener("click", () => {
+      if (gbHasPrev) {
+        gbPage = Math.max(1, gbPage - 1);
+        loadGuestbookIssues(gbPage);
+      }
+    });
+    document.getElementById("gbNext").addEventListener("click", () => {
+      if (gbHasNext) {
+        gbPage = gbPage + 1;
+        loadGuestbookIssues(gbPage);
+      }
+    });
+
+    // 每页显示条数切换
+    (function setupPerPage() {
+      const sel = document.getElementById("gbPerPage");
+      if (!sel) return;
+      sel.value = String(ISSUES_PER_PAGE);
+      sel.addEventListener("change", (e) => {
+        ISSUES_PER_PAGE = Number(e.target.value) || 5;
+        gbPage = 1;
+        loadGuestbookIssues(gbPage);
       });
-      document.getElementById("gbNext").addEventListener("click", () => {
-        if (gbHasNext) {
-          gbPage = gbPage + 1;
-          loadGuestbookIssues(gbPage);
-        }
+    })();
+
+    function parseLinkHeader(header) {
+      if (!header) return {};
+      const parts = header.split(",");
+      const map = {};
+      for (const p of parts) {
+        const match = p.match(/<([^>]+)>;\s*rel="([^"]+)"/);
+        if (match) map[match[2]] = match[1];
+      }
+      return map;
+    }
+
+    function updatePaginationInfo(page, totalCount, totalPages) {
+      const pageInfo = document.getElementById("gbPageInfo");
+      if (totalCount != null) {
+        const per = ISSUES_PER_PAGE;
+        const pages = totalPages || Math.ceil(totalCount / per);
+        pageInfo.textContent = `第 ${page} / ${pages} 页 · 每页 ${per} 条 · 共 ${totalCount} 条`;
+      } else {
+        pageInfo.textContent = `第 ${page} 页 · 每页 ${ISSUES_PER_PAGE} 条`;
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(
+        /[&<>\"']/g,
+        (m) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        }[m])
+      );
+    }
+
+    function markdownToHtml(md) {
+      if (!md) return "";
+      let s = String(md).replace(/\r\n/g, "\n");
+      // code blocks
+      s = s.replace(/```([\s\S]*?)```/g, (m, p1) => {
+        return (
+          '<pre class="bg-gray-100 dark:bg-gray-800 p-2 rounded overflow-auto"><code>' +
+          escapeHtml(p1) +
+          "</code></pre>"
+        );
       });
+      // escape remaining HTML
+      s = escapeHtml(s);
+      // links
+      s = s.replace(
+        /\[([^\]]+)\]\(([^)]+)\)/g,
+        '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 underline">$1</a>'
+      );
+      // bold
+      s = s.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+      // inline code
+      s = s.replace(
+        /`([^`]+)`/g,
+        '<code class="bg-gray-100 dark:bg-gray-800 px-1 rounded">$1</code>'
+      );
+      // italic
+      s = s.replace(/\*(.+?)\*/g, "<em>$1</em>");
+      // paragraphs
+      const paragraphs = s
+        .split(/\n\n+/)
+        .map((p) => p.replace(/\n/g, "<br>"));
+      return paragraphs.map((p) => "<p>" + p + "</p>").join("");
+    }
 
-      // 每页显示条数切换
-      (function setupPerPage() {
-        const sel = document.getElementById("gbPerPage");
-        if (!sel) return;
-        sel.value = String(ISSUES_PER_PAGE);
-        sel.addEventListener("change", (e) => {
-          ISSUES_PER_PAGE = Number(e.target.value) || 5;
-          gbPage = 1;
-          loadGuestbookIssues(gbPage);
-        });
-      })();
+    // 初次加载
+    loadGuestbookIssues(gbPage);
+  </script>
+</body>
 
-      function parseLinkHeader(header) {
-        if (!header) return {};
-        const parts = header.split(",");
-        const map = {};
-        for (const p of parts) {
-          const match = p.match(/<([^>]+)>;\s*rel="([^"]+)"/);
-          if (match) map[match[2]] = match[1];
-        }
-        return map;
-      }
-
-      function updatePaginationInfo(page, totalCount, totalPages) {
-        const pageInfo = document.getElementById("gbPageInfo");
-        if (totalCount != null) {
-          const per = ISSUES_PER_PAGE;
-          const pages = totalPages || Math.ceil(totalCount / per);
-          pageInfo.textContent = `第 ${page} / ${pages} 页 · 每页 ${per} 条 · 共 ${totalCount} 条`;
-        } else {
-          pageInfo.textContent = `第 ${page} 页 · 每页 ${ISSUES_PER_PAGE} 条`;
-        }
-      }
-
-      function escapeHtml(str) {
-        return String(str).replace(
-          /[&<>\"']/g,
-          (m) =>
-            ({
-              "&": "&amp;",
-              "<": "&lt;",
-              ">": "&gt;",
-              '"': "&quot;",
-              "'": "&#39;",
-            }[m])
-        );
-      }
-
-      function markdownToHtml(md) {
-        if (!md) return "";
-        let s = String(md).replace(/\r\n/g, "\n");
-        // code blocks
-        s = s.replace(/```([\s\S]*?)```/g, (m, p1) => {
-          return (
-            '<pre class="bg-gray-100 dark:bg-gray-800 p-2 rounded overflow-auto"><code>' +
-            escapeHtml(p1) +
-            "</code></pre>"
-          );
-        });
-        // escape remaining HTML
-        s = escapeHtml(s);
-        // links
-        s = s.replace(
-          /\[([^\]]+)\]\(([^)]+)\)/g,
-          '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 underline">$1</a>'
-        );
-        // bold
-        s = s.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
-        // inline code
-        s = s.replace(
-          /`([^`]+)`/g,
-          '<code class="bg-gray-100 dark:bg-gray-800 px-1 rounded">$1</code>'
-        );
-        // italic
-        s = s.replace(/\*(.+?)\*/g, "<em>$1</em>");
-        // paragraphs
-        const paragraphs = s
-          .split(/\n\n+/)
-          .map((p) => p.replace(/\n/g, "<br>"));
-        return paragraphs.map((p) => "<p>" + p + "</p>").join("");
-      }
-
-      // 初次加载
-      loadGuestbookIssues(gbPage);
-    </script>
-  </body>
 </html>
