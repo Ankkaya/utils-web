@@ -47,6 +47,9 @@
   <!-- 自定义样式 -->
   <link rel="stylesheet" href="../assets/css/main.css">
 
+  <!-- 导航栏工具栏组件 -->
+  <script src="../assets/js/navbar-toolbar.js"></script>
+
   <!-- 结构化数据 -->
   <script type="application/ld+json">
   {
@@ -68,46 +71,7 @@
         <a href="../index.html" class="text-xl font-bold theme-color">
           在线工具集合
         </a>
-        <div class="flex items-center space-x-4">
-          <a href="../index.html" class="text-gray-700 dark:text-gray-300 theme-color-hover">首页</a>
-          <a href="all-tools.html" class="text-gray-700 dark:text-gray-300 theme-color-hover">全部工具</a>
-          <!-- 颜色选择器 -->
-          <div class="relative">
-            <button data-color-picker-toggle
-              class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" aria-label="选择主题色">
-              <svg class="w-5 h-5 theme-color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-              </svg>
-            </button>
-            <!-- 颜色选择面板 -->
-            <div id="colorPickerPanel"
-              class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4 z-50">
-              <div class="mb-3">
-                <h3 class="text-sm font-semibold mb-2">预设颜色</h3>
-                <div class="grid grid-cols-4 gap-2" id="presetColors">
-                  <!-- 预设颜色将通过JavaScript动态生成 -->
-                </div>
-              </div>
-              <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
-                <label class="block text-sm font-semibold mb-2">自定义颜色</label>
-                <div class="flex items-center space-x-2">
-                  <input type="color" id="customColorPicker" class="w-12 h-10 rounded cursor-pointer" value="#3b82f6" />
-                  <input type="text" id="customColorInput" placeholder="#3b82f6"
-                    class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-sm font-mono"
-                    maxlength="7" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- 主题切换按钮 -->
-          <button data-theme-toggle class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-            aria-label="切换主题">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-            </svg>
-          </button>
-        </div>
+        <navbar-toolbar page="tool"></navbar-toolbar>
       </div>
     </nav>
   </header>

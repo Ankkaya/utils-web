@@ -61,14 +61,6 @@ svg.theme-color-hover:hover {
   background-color: var(--theme-color-hover) !important;
 }
 
-.theme-bg-secondary {
-  background-color: var(--theme-color-hover) !important;
-}
-
-.theme-bg-secondary-hover:hover {
-  background-color: var(--theme-color) !important;
-}
-
 /* 主题色焦点环 */
 .theme-focus-ring:focus {
   --tw-ring-color: var(--theme-color) !important;
