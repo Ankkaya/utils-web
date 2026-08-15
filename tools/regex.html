@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="正则表达式测试工具，支持实时匹配高亮、分组捕获显示、常用正则表达式参考">
+  <meta name="keywords" content="正则表达式,正则测试,正则工具,regex,正则表达式测试器">
+  <link rel="canonical" href="http://utils.ankkaya.top/tools/regex.html">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="正则表达式测试工具 - 在线工具集合">
+  <meta property="og:description" content="在线正则表达式测试工具，实时高亮匹配结果，支持分组捕获">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://utils.ankkaya.top/tools/regex.html">
+  <meta property="og:site_name" content="在线工具集合">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="正则表达式测试工具 - 在线工具集合">
+  <meta name="twitter:description" content="在线测试正则表达式，实时高亮显示匹配结果">
+  <meta name="twitter:url" content="http://utils.ankkaya.top/tools/regex.html">
+
+  <title>正则表达式测试工具 - 在线工具集合</title>
+  <!-- 阿里妈妈字体（阿里巴巴普惠体） -->
+  <link rel="preconnect" href="https://at.alicdn.com" crossorigin>
+  <style>
+    @font-face {
+      font-family: 'Alibaba PuHuiTi';
+      src: url('https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot');
+      src: url('https://at.alicdn.com/t/webfont_8r1xq8qjq8j.eot?#iefix') format('embedded-opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['selector', '[data-theme="dark"]'],
+    }
+  </script>
+  <link rel="stylesheet" href="../assets/css/main.css">
+
+  <!-- 导航栏工具栏组件 -->
+  <script src="../assets/js/navbar-toolbar.js"></script>
+
+  <!-- 结构化数据 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "正则表达式测试工具",
+    "url": "http://utils.ankkaya.top/tools/regex.html",
+    "applicationCategory": "UtilityApplication",
+    "description": "在线正则表达式测试工具，实时高亮匹配结果，支持分组捕获显示"
+  }
+  </script>
+  <style>
+    .match-highlight {
+      background-color: rgba(255, 213, 79, 0.4);
+      border-radius: 2px;
+      padding: 1px 0;
+    }
+    .match-highlight:nth-child(even) {
+      background-color: rgba(99, 179, 237, 0.4);
+    }
+    .group-highlight-1 { color: #ef4444; font-weight: 600; }
+    .group-highlight-2 { color: #10b981; font-weight: 600; }
+    .group-highlight-3 { color: #8b5cf6; font-weight: 600; }
+    .group-highlight-4 { color: #f59e0b; font-weight: 600; }
+    #highlightedOutput {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      line-height: 1.6;
+    }
+    .regex-flag {
+      cursor: pointer;
+      user-select: none;
+    }
+    .regex-flag.active {
+      background-color: var(--primary-color, #3b82f6);
+      color: white;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+  <!-- 导航栏 -->
+  <navbar-toolbar page="tool"></navbar-toolbar>
+
+  <main class="flex-grow container mx-auto px-4 py-8 max-w-6xl">
+    <h1 class="text-3xl font-bold mb-6 flex items-center">
+      <div class="w-10 h-10 bg-cyan-100 dark:bg-cyan-900 rounded-lg flex items-center justify-center mr-3">
+        <svg class="w-6 h-6 text-cyan-600 dark:text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+        </svg>
+      </div>
+      正则表达式测试工具
+    </h1>
+
+    <!-- 正则输入区域 -->
+    <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+      <h2 class="text-xl font-semibold mb-4">正则表达式</h2>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <div class="flex-1">
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">/</span>
+            <input type="text" id="regexPattern" placeholder="输入正则表达式，例如：\d+"
+              class="w-full pl-7 pr-7 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 theme-focus-ring font-mono text-sm"
+              oninput="testRegex()">
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">/</span>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="toggleFlag('g')" id="flag-g"
+            class="regex-flag px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 font-mono text-sm active"
+            title="全局匹配">g</button>
+          <button onclick="toggleFlag('i')" id="flag-i"
+            class="regex-flag px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 font-mono text-sm"
+            title="忽略大小写">i</button>
+          <button onclick="toggleFlag('m')" id="flag-m"
+            class="regex-flag px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 font-mono text-sm"
+            title="多行模式">m</button>
+          <button onclick="toggleFlag('s')" id="flag-s"
+            class="regex-flag px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 font-mono text-sm"
+            title="点号匹配换行">s</button>
+        </div>
+      </div>
+      <div id="regexError" class="mt-3 text-red-600 dark:text-red-400 hidden"></div>
+    </section>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- 测试字符串输入 -->
+      <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-semibold mb-4">测试字符串</h2>
+        <textarea id="testString" placeholder="输入要测试的文本..."
+          class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 theme-focus-ring font-mono text-sm"
+          rows="10" oninput="testRegex()"></textarea>
+      </section>
+
+      <!-- 高亮匹配结果 -->
+      <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xl font-semibold">匹配结果</h2>
+          <button onclick="copyResult()" class="px-3 py-1 theme-bg text-white rounded theme-bg-hover text-sm">复制</button>
+        </div>
+        <div id="highlightedOutput"
+          class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 font-mono text-sm overflow-auto"
+          style="min-height: 200px; max-height: 300px;">
+          <span class="text-gray-400">匹配结果将在此处高亮显示...</span>
+        </div>
+      </section>
+    </div>
+
+    <!-- 匹配信息 -->
+    <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6">
+      <h2 class="text-xl font-semibold mb-4">匹配信息</h2>
+      <div id="matchInfo" class="text-gray-600 dark:text-gray-400">
+        <p>输入正则表达式和测试字符串后，匹配信息将在此处显示。</p>
+      </div>
+    </section>
+
+    <!-- 常用正则表达式参考 -->
+    <section class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6">
+      <h2 class="text-xl font-semibold mb-4">常用正则表达式</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+          onclick="usePreset('[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}', 'g')">
+          <code class="text-sm font-mono text-cyan-600 dark:text-cyan-400">[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}</code>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">邮箱地址</p>
+        </div>
+        <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+          onclick="usePreset('1[3-9]\\d{9}', 'g')">
+          <code class="text-sm font-mono text-cyan-600 dark:text-cyan-400">1[3-9]\d{9}</code>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">手机号码</p>
+        </div>
+        <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+          onclick="usePreset('https?://[\\w-]+(\\.[\\w-]+)+([\\w.,@?^=%&:/~+#-]*[\\w@?^=%&/~+#-])?', 'gi')">
+          <code class="text-sm font-mono text-cyan-600 dark:text-cyan-400">https?://[\w-]+(\.[\w-]+)+...</code>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">URL地址</p>
+        </div>
+        <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+          onclick="usePreset('\\d{4}-\\d{2}-\\d{2}', 'g')">
+          <code class="text-sm font-mono text-cyan-600 dark:text-cyan-400">\d{4}-\d{2}-\d{2}</code>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">日期格式 (YYYY-MM-DD)</p>
+        </div>
+        <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+          onclick="usePreset('#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})\\b', 'gi')">
+          <code class="text-sm font-mono text-cyan-600 dark:text-cyan-400">#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})\b</code>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">HEX颜色值</p>
+        </div>
+        <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+          onclick="usePreset('<([a-z]+)([^<]*?)>(.*?)<\\/\\1>', 'gis')">
+          <code class="text-sm font-mono text-cyan-600 dark:text-cyan-400">&lt;([a-z]+)([^&lt;]*?)&gt;(.*?)&lt;/\1&gt;</code>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">HTML标签</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <div id="footer-container"></div>
+
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/theme.js"></script>
+  <script src="../assets/js/common.js"></script>
+  <script src="../assets/js/analytics.js"></script>
+  <script src="../assets/js/footer.js"></script>
+  <script>
+    // 当前激活的标志位
+    const activeFlags = { g: true, i: false, m: false, s: false };
+
+    // 切换标志位
+    function toggleFlag(flag) {
+      activeFlags[flag] = !activeFlags[flag];
+      const btn = document.getElementById('flag-' + flag);
+      btn.classList.toggle('active', activeFlags[flag]);
+      testRegex();
+    }
+
+    // 获取当前标志位字符串
+    function getFlags() {
+      return Object.entries(activeFlags)
+        .filter(([_, active]) => active)
+        .map(([flag]) => flag)
+        .join('');
+    }
+
+    // 使用预设正则表达式
+    function usePreset(pattern, flags) {
+      document.getElementById('regexPattern').value = pattern;
+
+      // 重置所有标志位
+      Object.keys(activeFlags).forEach(f => activeFlags[f] = false);
+
+      // 设置指定的标志位
+      for (const f of flags) {
+        if (activeFlags.hasOwnProperty(f)) {
+          activeFlags[f] = true;
+        }
+      }
+
+      // 更新按钮状态
+      Object.keys(activeFlags).forEach(f => {
+        document.getElementById('flag-' + f).classList.toggle('active', activeFlags[f]);
+      });
+
+      testRegex();
+    }
+
+    // 测试正则表达式
+    function testRegex() {
+      const pattern = document.getElementById('regexPattern').value;
+      const testStr = document.getElementById('testString').value;
+      const errorEl = document.getElementById('regexError');
+      const outputEl = document.getElementById('highlightedOutput');
+      const infoEl = document.getElementById('matchInfo');
+
+      // 清除错误
+      errorEl.classList.add('hidden');
+      errorEl.textContent = '';
+
+      if (!pattern) {
+        outputEl.innerHTML = '<span class="text-gray-400">匹配结果将在此处高亮显示...</span>';
+        infoEl.innerHTML = '<p>输入正则表达式和测试字符串后，匹配信息将在此处显示。</p>';
+        return;
+      }
+
+      if (!testStr) {
+        outputEl.innerHTML = '<span class="text-gray-400">请输入测试字符串...</span>';
+        infoEl.innerHTML = '<p>请输入测试字符串以查看匹配结果。</p>';
+        return;
+      }
+
+      try {
+        const flags = getFlags();
+        const regex = new RegExp(pattern, flags);
+
+        // 保存上次的正则表达式
+        Storage.local.set('lastRegex', { pattern, flags });
+
+        // 查找所有匹配
+        const matches = [];
+        let match;
+
+        if (flags.includes('g')) {
+          while ((match = regex.exec(testStr)) !== null) {
+            matches.push({
+              index: match.index,
+              length: match[0].length,
+              value: match[0],
+              groups: match.slice(1)
+            });
+            // 防止无限循环
+            if (match[0].length === 0) regex.lastIndex++;
+          }
+        } else {
+          match = regex.exec(testStr);
+          if (match) {
+            matches.push({
+              index: match.index,
+              length: match[0].length,
+              value: match[0],
+              groups: match.slice(1)
+            });
+          }
+        }
+
+        // 生成高亮结果
+        if (matches.length === 0) {
+          outputEl.textContent = testStr;
+          infoEl.innerHTML = '<p class="text-gray-500">没有找到匹配项。</p>';
+          return;
+        }
+
+        // 构建高亮HTML
+        let highlighted = '';
+        let lastIndex = 0;
+
+        matches.forEach((m, i) => {
+          // 添加匹配前的文本
+          highlighted += escapeHtml(testStr.slice(lastIndex, m.index));
+          // 添加高亮的匹配文本
+          highlighted += `<span class="match-highlight" title="匹配 ${i + 1}: ${escapeHtml(m.value)}">${escapeHtml(m.value)}</span>`;
+          lastIndex = m.index + m.length;
+        });
+
+        // 添加剩余文本
+        highlighted += escapeHtml(testStr.slice(lastIndex));
+        outputEl.innerHTML = highlighted;
+
+        // 生成匹配信息
+        let infoHtml = `<p class="mb-3 text-green-600 dark:text-green-400 font-semibold">找到 ${matches.length} 个匹配项</p>`;
+
+        matches.forEach((m, i) => {
+          infoHtml += `
+            <div class="mb-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-semibold text-gray-700 dark:text-gray-300">匹配 ${i + 1}</span>
+                <span class="text-sm text-gray-500">位置: ${m.index}</span>
+              </div>
+              <code class="text-sm text-cyan-600 dark:text-cyan-400">"${escapeHtml(m.value)}"</code>
+          `;
+
+          if (m.groups.length > 0) {
+            infoHtml += '<div class="mt-2 text-sm">';
+            m.groups.forEach((g, gi) => {
+              const groupClass = `group-highlight-${(gi % 4) + 1}`;
+              infoHtml += `<div class="${groupClass}">分组 ${gi + 1}: "${escapeHtml(g || '')}"</div>`;
+            });
+            infoHtml += '</div>';
+          }
+
+          infoHtml += '</div>';
+        });
+
+        infoEl.innerHTML = infoHtml;
+
+      } catch (e) {
+        errorEl.textContent = '正则表达式语法错误: ' + e.message;
+        errorEl.classList.remove('hidden');
+        outputEl.innerHTML = '<span class="text-gray-400">正则表达式有误...</span>';
+        infoEl.innerHTML = '<p class="text-gray-500">请修正正则表达式语法错误。</p>';
+      }
+    }
+
+    // HTML转义
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.appendChild(document.createTextNode(str));
+      return div.innerHTML;
+    }
+
+    // 复制结果
+    function copyResult() {
+      const output = document.getElementById('highlightedOutput').textContent;
+      if (!output || output.includes('匹配结果将在此处高亮显示')) {
+        Utils.showToast('没有可复制的内容', 'error');
+        return;
+      }
+      Utils.copyToClipboard(output).then(() => {
+        Utils.showToast('已复制到剪贴板');
+      });
+    }
+
+    // 页面加载时恢复上次的正则表达式
+    window.addEventListener('DOMContentLoaded', () => {
+      const lastRegex = Storage.local.get('lastRegex');
+      if (lastRegex) {
+        document.getElementById('regexPattern').value = lastRegex.pattern || '';
+
+        // 恢复标志位
+        if (lastRegex.flags) {
+          Object.keys(activeFlags).forEach(f => {
+            activeFlags[f] = lastRegex.flags.includes(f);
+            document.getElementById('flag-' + f).classList.toggle('active', activeFlags[f]);
+          });
+        }
+
+        testRegex();
+      }
+    });
+  </script>
+</body>
+
+</html>
