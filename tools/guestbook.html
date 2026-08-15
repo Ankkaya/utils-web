@@ -239,14 +239,10 @@
         return;
       }
 
-      const token = localStorage.getItem("GITHUB_TOKEN") || "";
-      const headers = { Accept: "application/vnd.github.v3+json" };
-      if (token) headers["Authorization"] = `token ${token}`;
-
       const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/issues?labels=approved&state=open&per_page=${ISSUES_PER_PAGE}&page=${page}`;
 
       try {
-        const res = await fetch(url, { headers });
+        const res = await fetchGitHubIssues(url);
         if (!res.ok) {
           listEl.innerHTML = `<div class="text-red-500">加载留言失败：${res.status} ${res.statusText}</div>`;
           return;
@@ -267,7 +263,7 @@
             const lastUrl = new URL(linkMap.last);
             totalPages = Number(lastUrl.searchParams.get("page")) || null;
             if (totalPages) {
-              const lastRes = await fetch(linkMap.last, { headers });
+              const lastRes = await fetchGitHubIssues(linkMap.last);
               if (lastRes.ok) {
                 const lastItems = await lastRes.json();
                 const lastCount = Array.isArray(lastItems)
@@ -319,6 +315,40 @@
         listEl.innerHTML =
           '<div class="text-red-500">加载留言时发生错误</div>';
       }
+    }
+
+    function getGitHubToken() {
+      try {
+        return localStorage.getItem("GITHUB_TOKEN") || "";
+      } catch (error) {
+        console.warn("无法读取 GitHub Token，将使用匿名请求", error);
+        return "";
+      }
+    }
+
+    function createGitHubHeaders(token = "") {
+      const headers = {
+        Accept: "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+      };
+      if (token) headers.Authorization = `Bearer ${token}`;
+      return headers;
+    }
+
+    async function fetchGitHubIssues(url) {
+      const token = getGitHubToken();
+      let response = await fetch(url, {
+        headers: createGitHubHeaders(token),
+      });
+
+      // 留言来自公开仓库；本地令牌失效、权限不足或配额耗尽时，
+      // 认证请求可能返回 401/403，此时匿名请求仍可正常读取。
+      if (token && (response.status === 401 || response.status === 403)) {
+        console.warn("GitHub 认证请求被拒绝，改用匿名请求加载留言");
+        response = await fetch(url, { headers: createGitHubHeaders() });
+      }
+
+      return response;
     }
 
     document.getElementById("gbPrev").addEventListener("click", () => {
